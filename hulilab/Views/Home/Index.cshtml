@@ -1,0 +1,18 @@
+﻿@using hulilab.Models.BLL
+@{
+    ViewBag.Title = "Index";
+    string error;
+    string result;
+}
+
+<h2>Index</h2>
+@if (PaperService.DoGetPapers(out result, out error))
+{
+    result = HttpUtility.HtmlDecode(result);
+    Response.Write(result);
+}
+else
+{
+    @error
+}
+
