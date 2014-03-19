@@ -1,0 +1,25 @@
+﻿@using (Html.BeginForm("CheckLogIn", "Member",FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div>
+        <div>
+            <label>
+                登录名</label>
+            <div>
+                @Html.TextBox("username")</div>
+        </div>
+        <div>
+            <label>
+                密码</label>
+            <div>
+                @Html.TextBox("password")
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="reset" class="btn">
+            重置</button>
+        <button type="submit" class="btn">
+            登录</button>
+    </div>
+}
+

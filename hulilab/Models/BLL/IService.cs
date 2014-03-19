@@ -11,6 +11,7 @@ namespace hulilab.Models.BLL
 {
     interface IService<T> where T:class
     {
+        string ErrorMsg { get; }
         bool Add(T obj);
         bool Delete(T obj);
         bool Edit(T obj);

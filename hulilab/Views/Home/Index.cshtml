@@ -1,38 +1,3 @@
 ﻿@using hulilab.Models.BLL
 @using hulilab.Models.DAL
-@{
-    ViewBag.Title = "Index";
-    string error;
-    string result;
-}
-
-<h2>Index</h2>
-@if (PaperService.DoGetPapers(out result, out error))
-{
-    result = HttpUtility.HtmlDecode(result);
-    Response.Write(result);
-}
-else
-{
-    @error
-}
-@{
-    //Member member = new Member();
-    //member.Username = "huli";
-    //member.Password = "123";
-    MemberService ms = new MemberService();
-        //ms.Find(member);
-        List<Member> members;
-        if (ms.LoadCurrentTeachers(out members))
-        {
-            foreach(Member member in members)
-            {
-                Response.Write(member.Name);
-            }   
-        }
-       // Response.Write(member.Introduction);
-       // member.Introduction = new System.Text.StringBuilder("intrddd");
-      //  member.IsTeacher = false;
-      //  ms.Edit(member);
-}
 

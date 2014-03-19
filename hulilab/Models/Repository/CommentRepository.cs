@@ -7,7 +7,7 @@ using hulilab.Models.DAL;
 
 namespace hulilab.Models.Repository
 {
-    public class ProjectRepository : BaseRepository<Project>, IRepository<Project>
+    public class CommentRepository : BaseRepository<Comment>, IRepository<Comment>
     {
     }
 }

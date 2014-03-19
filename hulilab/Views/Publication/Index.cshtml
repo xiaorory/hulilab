@@ -1,0 +1,15 @@
+﻿@using hulilab.Models.BLL
+@using hulilab.Models.DAL
+@{
+    string error;
+    string result;
+    if (PaperService.DoGetPapers(out result, out error))
+    {
+        result = HttpUtility.HtmlDecode(result);
+        Response.Write(result);
+    }
+    else
+    {
+    @error
+    }
+}

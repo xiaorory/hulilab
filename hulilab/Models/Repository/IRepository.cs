@@ -10,6 +10,7 @@ namespace hulilab.Models.Repository
 {
     interface IRepository<T> where T: BaseObject,new()
     {
+        string ErrorMsg { get; }
         bool Find(T obj);
         bool Delete(T obj);
         bool Edit(T obj);

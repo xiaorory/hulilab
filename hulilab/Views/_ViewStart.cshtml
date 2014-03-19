@@ -1,3 +1,12 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    string controller = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    string action = ViewContext.RouteData.Values["action"].ToString().ToLower();
+    if (controller.Equals("admin") && !action.Equals("login"))
+    {
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }

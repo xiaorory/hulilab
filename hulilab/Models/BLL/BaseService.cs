@@ -11,11 +11,18 @@ namespace hulilab.Models.BLL
 {
     public class BaseService<T> :IService<T> where T:BaseObject,new()
     {
+        private string errorMsg;
+        public string ErrorMsg { get { return errorMsg; } }
+
         private IRepository<T> GetCurrentRepository()
         {
             if (typeof(T) == typeof(Member))
             {
                 return (IRepository<T>)new MemberRepository();
+            }
+            else if (typeof(T) == typeof(Project))
+            {
+                return (IRepository<T>)new ProjectRepository();
             }
             else
             {
@@ -25,68 +32,113 @@ namespace hulilab.Models.BLL
 
         public bool Add(T obj)
         {
+            bool isSuccess = false;
             IRepository<T> ir = GetCurrentRepository();
             if (ir != null)
             {
-                return ir.Create(obj);
+                if (ir.Create(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
             }
             else
             {
-                return false;
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
             }
+            return isSuccess;
         }
 
         public bool Delete(T obj)
         {
+            bool isSuccess = false;
             IRepository<T> ir = GetCurrentRepository();
             if (ir != null)
             {
-                return ir.Delete(obj);
+                if(ir.Delete(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
             }
             else
             {
-                return false;
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
             }
+            return isSuccess;
         }
 
         public bool Edit(T obj)
         {
+            bool isSuccess = false;
             IRepository<T> ir = GetCurrentRepository();
             if (ir != null)
             {
-                return ir.Edit(obj);
+                if(ir.Edit(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
             }
             else
             {
-                return false;
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
             }
+            return isSuccess;
         }
 
         public bool Find(T obj)
         {
+            bool isSuccess = false;
             IRepository<T> ir = GetCurrentRepository();
             if (ir != null)
             {
-                return ir.Find(obj);
+                if(ir.Find(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
             }
             else
             {
-                return false;
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
             }
+            return isSuccess;
         }
 
         public bool Load(Func<DataRow, bool> condition,out List<T> results)
         {
+            bool isSuccess = false;
             IRepository<T> ir = GetCurrentRepository();
             if (ir != null)
             {
-                return ir.Load(condition, out results);
+                if(ir.Load(condition, out results))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
             }
             else
             {
-                results = new List<T>();
-                return false;
+                results = null;
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
             }
+            return isSuccess;
         }
 
         public bool LoadAll(out List<T> results)

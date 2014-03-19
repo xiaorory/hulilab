@@ -1,12 +1,47 @@
-﻿<!DOCTYPE html>
+﻿@using hulilab.Models.Common
+<!DOCTYPE html>
 <html>
 <head>
-    <title>@ViewBag.Title</title>
+    <title>@Constants.WEBSITETITLE</title>
     <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
 </head>
-
+@RenderSection("Head", false)
 <body>
-    @RenderBody()
+    <div id="header">
+        <div id="logo">
+            <h1>
+                <a href="#">Li Hu's Lab</a></h1>
+            <p>
+                Based in Key Laboratory of Cognition and Personality and Faculty of Psychology,
+                Southwest University, China.</p>
+        </div>
+        <div id="menu">
+            <ul>
+                <li>@Html.ActionLink("HomePage", "Index", "Home")</li>
+                <li>@Html.ActionLink("Team", "Team", "Member")</li>
+                <li>@Html.ActionLink("Publications", "Index", "Publication")</li>
+                <li>@Html.ActionLink("Collaborations", "Index", "Collaboration")</li>
+                <li>@Html.ActionLink("Share List", "Index", "Share")</li>
+            </ul>
+        </div>
+        <!-- end #menu -->
+    </div>
+    <!-- end #header -->
+    <div id="page">
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- end #page -->
+    <div id="footer" class="inner" style="padding-top: 20px">
+        <div style="text-align: center;">@Html.ActionLink("HomePage", "Index", "Home")|@Html.ActionLink("Team", "Team", "Member")|@Html.ActionLink("Share List", "Index", "Share")</div>
+        <div style="text-align: center;">
+            <a href="@Url.Content("~/Admin/Login")" style="float:right;width:100px;text-decoration:none;color:#215990;" class="more">
+                Admin Login</a></div>
+        <p style="text-align: center">
+            Copyright &#169; 2013 hulilab.com. All rights reserved.</p>
+    </div>
+    <!-- end #footer -->
 </body>
 </html>

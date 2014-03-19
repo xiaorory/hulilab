@@ -1,0 +1,55 @@
+﻿@using hulilab.Models.Common
+@{   
+    int? userId = hulilab.Models.Common.StringHelper.ConvertObjectToInt(Session["userId"]);
+    if (null == userId || userId <= 0)
+    {
+        Response.Write(string.Format(Constants.FAILALERT, "You have no permission to this page.Please Log in first!"));
+        Response.Flush();
+        Response.Close();
+    }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@Constants.ADMINWEBTITLE</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+</head>
+<!-- end #header -->
+@RenderSection("Head", false)
+<body>
+    <div id="header">
+        <div id="logo">
+            <h1>
+                <a href="#">Li Hu's Lab</a></h1>
+            <p>
+                Based in Key Laboratory of Cognition and Personality and Faculty of Psychology,
+                Southwest University, China.</p>
+        </div>
+        <div id="menu">
+            <ul>
+                <li>@Html.ActionLink("首页", "Index", "Admin")</li>
+                <li>@Html.ActionLink("个人资料", "MemberManagement", "Admin")</li>
+                <li>@Html.ActionLink("成员管理", "TeamManagement", "Admin")</li>
+                <li>@Html.ActionLink("共享资料", "ShareManagement", "Admin")</li>
+                <li>@Html.ActionLink("评论管理", "CommentManagement", "Admin")</li>
+            </ul>
+        </div>
+        <span style="float: right; position: absolute; right: 100px; top: 20px"><a
+		href="@Url.Content("~/member/logout")">退出</a> </span>
+    </div>
+    <!-- end #menu -->
+    <div id="page">
+        <div class="content">
+            @RenderBody()
+        </div>
+    </div>
+    <!-- end #page -->
+    <div id="footer" class="inner" style="padding-top: 20px">
+         <div style="text-align: center;">@Html.ActionLink("首页", "Index", "Admin")|@Html.ActionLink("个人资料", "MemberManagement", "Admin")|@Html.ActionLink("共享资料", "Index", "Share")</div>
+        <p style="text-align: center">
+            Copyright &#169; 2013 hulilab.com. All rights reserved.</p>
+    </div>
+    <!-- end #footer -->
+</body>
+</html>

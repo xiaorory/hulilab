@@ -1,5 +1,134 @@
-﻿@{
-    ViewBag.Title = "Team Members";
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+@{
+    int? userId = StringHelper.ConvertObjectToInt(Request.Params["userid"]);
+    Member member = new Member();
+
+    if (null == userId)
+    {
+        userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+    }
+
+    if (null != userId && userId > 0)
+    {
+        member.ID = userId;
+    }
+    else
+    {
+        Response.Redirect(Url.Content("~/Home"));
+    }
+    MemberService ms = new MemberService();
+    if (!ms.Find(member))
+    {
+        Response.Redirect(Url.Content("~/Home"));
+    }
 }
-
-
+<div class="block">
+    <div class="blocktitle">
+        <h3>
+            Personal Information</h3>
+    </div>
+    <div class="blockcontent">
+        <table>
+            <tr>
+                <td>
+                    Name
+                </td>
+                <td>@member.EnuName
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Sex
+                </td>
+                <td>@StringHelper.GetSex(member.Sex, Language.ENU)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Education History
+                </td>
+                <td>@member.EnuEducationHistory
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Awards
+                </td>
+                <td>@member.EnuAwards
+                </td>
+            </tr>
+            @if (member.IsTeacher != null && (bool)member.IsTeacher)
+            {
+                <tr>
+                    <td>
+                        Academic Position
+                    </td>
+                    <td>@member.EnuAcademicPosition
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    Phone
+                </td>
+                <td>@member.Phone
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email
+                </td>
+                <td>@member.Email
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="block">
+    <div class="blocktitle">
+        <h3>
+            基金项目</h3>
+    </div>
+    <div class="blockcontent">
+        @{
+            ProjectService ps = new ProjectService();
+            List<Project> projects;
+            if (ps.LoadUserProjects((int)userId, out projects))
+            {
+                if (projects.Count == 0)
+                {
+            <p>
+                尚且没有基金项目</p>
+                }
+                else
+                {
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 30%">
+                            Duration
+                        </th>
+                        <th style="width: 70%">
+                            Project Name
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Project project in projects)
+                    {
+                        <tr>
+                            <td>@project.Duration
+                            </td>
+                            <td>@project.EnuTitle
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+                }
+            }
+        }
+    </div>
+</div>
