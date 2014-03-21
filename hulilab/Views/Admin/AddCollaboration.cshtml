@@ -1,0 +1,41 @@
+﻿@model hulilab.Models.DAL.Collaboration
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+@using (Html.BeginForm("AddCollaboration", "Collaboration", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="inner">
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    合作伙伴信息<span class="mark">（*必填）</span></h3>
+            </div>
+            <div class="blockcontent">
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.EnuFriendName)<span class="mark"> * </span>
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.EnuFriendName)
+                    @Html.ValidationMessageFor(model => model.EnuFriendName)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.ChsFriendName)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.ChsFriendName)
+                    @Html.ValidationMessageFor(model => model.ChsFriendName)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Link)
+                </div>
+                <div class="editor-field">
+                    @Html.EditorFor(model => model.Link)
+                    @Html.ValidationMessageFor(model => model.Link)
+                </div>
+                <p>
+                    <input type="submit" value="增加" class="btn"/>
+                </p>
+            </div>
+        </div>
+    </div>
+}

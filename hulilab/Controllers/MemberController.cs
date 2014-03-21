@@ -62,6 +62,7 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult AddMember(Member member)
         {
             MemberService ms = new MemberService();
@@ -80,6 +81,7 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult EditMember(Member member)
         {
             MemberService ms = new MemberService();
@@ -98,6 +100,7 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult AddProject(Project project)
         {
             ProjectService ps = new ProjectService();
@@ -116,6 +119,7 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
+        [HttpPost]
         public ActionResult EditProject(Project project)
         {
             ProjectService ps = new ProjectService();

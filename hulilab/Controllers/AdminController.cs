@@ -202,7 +202,7 @@ namespace hulilab.Controllers
                     ProjectService ps = new ProjectService();
                     if (ps.Delete(project))
                     {
-                        return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditMember?userid="+project.Userid)));
+                        return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditMember?userid=" + project.Userid)));
                     }
                 }
                 return Content(string.Format(Constants.FAILALERT, "没有找到该基金。"));
@@ -288,7 +288,11 @@ namespace hulilab.Controllers
                 return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
             }
         }
-
+        
+        /// <summary>
+        /// 论文管理页面
+        /// </summary>
+        /// <returns></returns>
         public ActionResult PublicationManagement()
         {
             Member user = CheckMembership();
@@ -301,5 +305,94 @@ namespace hulilab.Controllers
                 return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面(仅实验室老师有权限访问此页面)，请先登录！"));
             }
         }
+
+        /// <summary>
+        /// 合作伙伴管理页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult CollaborationManagement()
+        {
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 新增合作伙伴
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddCollaboration()
+        {
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 修改合作伙伴信息
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditCollaboration()
+        {
+            if (CheckMembership() != null)
+            {
+                int? collaborationId = StringHelper.ConvertObjectToInt(Request.Params["collaborationId"]);
+
+                if (null != collaborationId && collaborationId >  0)
+                {
+                    Collaboration collaboration = new Collaboration();
+                    collaboration.ID = collaborationId;
+                    CollaborationService cs = new CollaborationService();
+                    if (cs.Find(collaboration))
+                    {
+                        return View(collaboration);
+                    }
+                }
+                return Content(string.Format(Constants.FAILALERT, "没有找到该合作伙伴。"));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 删除一个合作伙伴
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteCollaboration()
+        {
+            if (CheckMembership() != null)
+            {
+                int? collaborationId = StringHelper.ConvertObjectToInt(Request.Params["collaborationId"]);
+
+                if (null != collaborationId && collaborationId > 0)
+                {
+                    Collaboration collaboration = new Collaboration();
+                    collaboration.ID = collaborationId;
+                    CollaborationService cs = new CollaborationService();
+                    if (cs.Delete(collaboration))
+                    {
+                        return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/CollaborationManagement")));
+                    }
+                }
+                return Content(string.Format(Constants.FAILALERT, "没有找到该合作伙伴。"));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
     }
 }
