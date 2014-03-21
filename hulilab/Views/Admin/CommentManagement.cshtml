@@ -56,7 +56,7 @@
                     我收到的评价</h3>
             </div>
             <div class="blockcontent">
-                @if (comments.Count > 0)
+                @if (shareComments.Count > 0)
                 {
                     <table>
                         @foreach (Comment comment in shareComments)
@@ -65,7 +65,7 @@
                             <td>
                                 @Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(comment.Content))
                                 <br />
-                                <span style="text-align: right">submitted on @comment.SubmitDate
+                                <span style="text-align: right">由 @MemberService.GetUserName(comment.Author, Language.CHS) 提交于 @comment.SubmitDate  
                                 </span>
                             </td>
                         </tr>

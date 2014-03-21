@@ -190,7 +190,7 @@ td
 
 #logo
 {
-	background: url(/files/pics/logo_bg.png) repeat-x top left;
+	background: url(./files/pics/logo_bg.png) repeat-x top left;
 	height: 223px;
 	text-align: right;
 	vertical-align: middle;
@@ -215,6 +215,7 @@ a:link
 #menu
 {
 	height: 50px;
+	background: url(./files/pics/menu_bg.gif) repeat-x top left;
 }
 
 #menu ul
@@ -250,3 +251,10 @@ a:link
 	padding:4px;
 	background-color: #ccdeb4;
 	}
+	
+.more 
+{
+	text-align:right;
+	padding-right:15px;
+	background: url(./files/pics/readmore_arrow.gif) no-repeat right center;
+}

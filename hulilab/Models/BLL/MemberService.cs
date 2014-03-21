@@ -45,7 +45,14 @@ namespace hulilab.Models.BLL
                     }
                 }
             }
-            return "Anonymous User";
+            if (lang == Language.CHS)
+            {
+                return "游客";
+            }
+            else
+            {
+                return "Anonymous User";
+            }
         }
     }
 }

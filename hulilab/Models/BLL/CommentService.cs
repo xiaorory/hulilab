@@ -28,7 +28,7 @@ namespace hulilab.Models.BLL
         /// <returns></returns>
         public bool LoadUserComments(int userid, out List<Comment> comments)
         {
-            return Load(p => p.Field<int>("Author") == userid, out comments);
+            return Load(p => p.Field<int?>("Author") == userid, out comments);
         }
 
         /// <summary>

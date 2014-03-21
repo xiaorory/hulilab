@@ -105,6 +105,9 @@
   <ItemGroup>
     <Content Include="Content\db\db.mdb" />
     <Content Include="Content\db\HULILAB.Access.txt" />
+    <Content Include="Content\files\pics\logo_bg.png" />
+    <Content Include="Content\files\pics\menu_bg.gif" />
+    <Content Include="Content\files\pics\readmore_arrow.gif" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
