@@ -11,7 +11,8 @@ namespace hulilab.Models.DAL
     public class Share:BaseObject
     {
         [Required]
-        public int Author { get; set; }//对应member id
+        [DefaultValue(null)]
+        public int? Author { get; set; }//对应member id
         [Required]
         [DisplayName("标题")]
         public string Title { get; set; }
@@ -20,7 +21,8 @@ namespace hulilab.Models.DAL
         [DisplayName("内容")]
         public string Content { get; set; }
         [DisplayName("文件类型")]
+        [Description("1为海报,2为资料总结,3为软件，0为未分类")]
         [DefaultValue(null)]
-        public int? Type { get; set; } //0为poster,1为资料总结,null为未填写
+        public int? Type { get; set; } //1为海报,2为资料总结,3为软件，0为未分类
     }
 }

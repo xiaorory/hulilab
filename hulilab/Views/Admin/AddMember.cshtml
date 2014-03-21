@@ -145,14 +145,14 @@
                     @Html.LabelFor(model => model.Status)<span class="mark">*</span>
                 </div>
                <div class="editor-field">
-                    @Html.DropDownListFor(model => model.Status, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString }, new SelectListItem() { Text = "否", Value = bool.FalseString } })
+                    @Html.DropDownListFor(model => model.Status, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString, Selected =true }, new SelectListItem() { Text = "否", Value = bool.FalseString } })
                     @Html.ValidationMessageFor(model => model.Status)
                 </div>
                 <div class="editor-label">
                     @Html.LabelFor(model => model.IsTeacher)<span class="mark">*</span>
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.IsTeacher, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString }, new SelectListItem() { Text = "否", Value = bool.FalseString } })
+                    @Html.DropDownListFor(model => model.IsTeacher, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString }, new SelectListItem() { Text = "否", Value = bool.FalseString, Selected = true } })
                     @Html.ValidationMessageFor(model => model.IsTeacher)
                 </div>
             </div>

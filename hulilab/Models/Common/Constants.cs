@@ -19,9 +19,12 @@ namespace hulilab.Models.Common
         CHS,
     }
 
+    //1为海报,2为资料总结,3为软件，0为未分类
     public enum ShareType
     {
-        POSTER,//海报
-        SUMMARY,//资料总结
+        UNDEFINED = 0,//未分类
+        POSTER=1,//海报
+        SUMMARY=2,//资料总结
+        SOFTWARE=3,//软件
     }
 }

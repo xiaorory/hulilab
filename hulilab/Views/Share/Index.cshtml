@@ -1,52 +1,104 @@
-﻿@using hulilab.Models.BLL
+﻿@model Comment
+@using hulilab.Models.BLL
 @using hulilab.Models.DAL
 @using hulilab.Models.Common
 <div class="inner">
     @{
-        ShareService ss = new ShareService();
-        List<Share> shares;
-        if (ss.LoadAll(out shares))
+        int? shareId = StringHelper.ConvertObjectToInt(Request.Params["shareId"]);
+        if (null != shareId && shareId > 0)
         {
+            ShareService ss = new ShareService();
+            Share share = new Share();
+            share.ID = shareId;
+            if (ss.Find(share))
+            {
         <div class="block">
             <div class="blocktitle">
                 <h3>
-                    Share List</h3>
+                    @share.Title</h3>
+                <br />
+                <span>@StringHelper.GetShareType(@share.Type, Language.ENU)</span>
             </div>
             <div class="blockcontent">
-                @if (shares.Count > 0)
+                <table>
+                    <tr>
+                        <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(share.Description))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(share.Content))
+                        </td>
+                    </tr>
+                </table>
+                <div class="box">
+                    <div class="boxtitle">
+                        <h3>
+                            Comments:
+                        </h3>
+                    </div>
+                    <div class="boxcontent">
+                        @{
+                List<Comment> comments;
+                CommentService cs = new CommentService();
+                if (cs.LoadShareComments((int)shareId, out comments))
                 {
-                    <table class="full">
-                        @foreach (Share share in shares)
+                    if (comments.Count > 0)
+                    {
+                        foreach (Comment comment in comments)
                         {
-                            <tr>
-                                <td>
-                                    @share.Title
-                                    <br />
-                                    <span>@StringHelper.GetShareType(@share.Type,Language.ENU)</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>@share.Description
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>@share.Content
-                                </td>
-                            </tr>
+                            <p>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(comment.Content))</p>
+                   
+                            <p style="text-align: right">
+                                submitted on @comment.SubmitDate by @MemberService.GetUserName(comment.Author, Language.ENU)
+                            </p>
+                       
                         }
-                    </table>
+                    }
+                    else
+                    {
+                            <p>
+                                No comments yet.</p>
+                    }
                 }
-                else
-                {
-                    <p>
-                        No share yet.</p>
-                }
+                        }
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="boxtitle">
+                        <h3>
+                            Add Comment:
+                        </h3>
+                    </div>
+                    <div class="boxcontent">
+                        @using (Html.BeginForm("AddComment", "Comment", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+
+                            @Html.HiddenFor(model => model.ShareId, new { Value = shareId })
+                            @Html.HiddenFor(model => model.Author, new { Value = StringHelper.ConvertObjectToInt(Session["userId"]) })
+                            <div class="editor-field">
+                                <p>
+                                    @Html.TextAreaFor(model => model.Content, new { @class = "edittextarea" })
+                                    @Html.ValidationMessageFor(model => model.Content)
+                                </p>
+                            </div>
+                            <p>
+                                <input type="submit" value="Send" class="btn" />
+                            </p>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
+            }
+            else
+            {
+        <p>@ss.ErrorMsg</p>
+            }
         }
         else
         {
-        <p>@ss.ErrorMsg</p>
+        <p>
+            No such share.</p>
         }
     }
 </div>

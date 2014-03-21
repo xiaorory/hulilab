@@ -5,6 +5,7 @@ using System.Web;
 using hulilab.Models.DAL;
 using hulilab.Models.Repository;
 using System.Data;
+using hulilab.Models.Common;
 
 namespace hulilab.Models.BLL
 {
@@ -23,6 +24,28 @@ namespace hulilab.Models.BLL
         public bool LoadPastStudents(out List<Member> pastStudents)
         {
             return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("Status") == false, out pastStudents);
+        }
+
+        public static string GetUserName(int? userid,Language lang)
+        {
+            if (null != userid && userid > 0)
+            {
+                Member member = new Member();
+                member.ID = userid;
+                MemberService ms = new MemberService();
+                if (ms.Find(member))
+                {
+                    if (lang == Language.CHS)
+                    {
+                        return member.ChsName;
+                    }
+                    else if (lang == Language.ENU)
+                    {
+                        return member.EnuName;
+                    }
+                }
+            }
+            return "Anonymous User";
         }
     }
 }

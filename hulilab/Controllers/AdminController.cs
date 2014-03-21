@@ -13,12 +13,39 @@ namespace hulilab.Controllers
     [HandleError]
     public class AdminController : Controller
     {
+        /// <summary>
+        /// 检查当前用户是否是是实验室成员
+        /// </summary>
+        /// <returns></returns>
+        private Member CheckMembership()
+        {
+            int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+
+            if (null != userId && userId > 0)
+            {
+                Member member = new Member();
+                member.ID = userId;
+                MemberService ms = new MemberService();
+                if (ms.Find(member))
+                {
+                    return member;
+                }
+            }
+            return null;
+        }
         //
         // GET: /Admin/
 
         public ActionResult Index()
         {
-            return View();
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         public ActionResult Login()
@@ -32,7 +59,14 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult TeamManagement()
         {
-            return View();
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         /// <summary>
@@ -41,19 +75,14 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult AddMember()
         {
-            int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
-           
-            if (null != userId && userId > 0)
+            if (CheckMembership() != null)
             {
-                Member member = new Member();
-                member.ID = userId;
-                MemberService ms = new MemberService();
-                if (ms.Find(member))
-                {
-                    return View();
-                }
+                return View();
             }
-            return RedirectToAction("Login");
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         /// <summary>
@@ -62,24 +91,34 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult EditMember()
         {
-            int? userId = StringHelper.ConvertObjectToInt(Request.Params["userid"]);
-            Member member = new Member();
-
-            if (null == userId)
+            Member user = CheckMembership();
+            if (user != null)
             {
-                userId = StringHelper.ConvertObjectToInt(Session["userId"]);
-            }
-
-            if (null != userId && userId > 0)
-            {
-                member.ID = userId;
-                MemberService ms = new MemberService();
-                if (ms.Find(member))
+                int? userId = StringHelper.ConvertObjectToInt(Request.Params["userid"]);
+                if (null == userId)
                 {
-                    return View(member);
+                    userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+                    return View(user);
+                }
+                else
+                {
+                    Member member = new Member();
+                    member.ID = userId;
+                    MemberService ms = new MemberService();
+                    if (ms.Find(member))
+                    {
+                        return View(member);
+                    }
+                    else
+                    {
+                        return Content(string.Format(Constants.FAILALERT, "没有找到该用户！"));
+                    }
                 }
             }
-            return RedirectToAction("Login");
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         /// <summary>
@@ -88,24 +127,14 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult ProjectManagement()
         {
-            int? userId = StringHelper.ConvertObjectToInt(Request.Params["userid"]);
-
-            if (null == userId)
+            if (CheckMembership() != null)
             {
-                userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+                return View();
             }
-
-            if (null != userId && userId > 0)
+            else
             {
-                Member member = new Member();
-                member.ID = userId;
-                MemberService ms = new MemberService();
-                if (ms.Find(member))
-                {
-                    return View();
-                }
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
             }
-            return RedirectToAction("Login");
         }
 
         /// <summary>
@@ -114,24 +143,14 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult AddProject()
         {
-            int? userId = StringHelper.ConvertObjectToInt(Request.Params["userid"]);
-
-            if (null == userId)
+            if (CheckMembership() != null)
             {
-                userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+                return View();
             }
-
-            if (null != userId && userId > 0)
+            else
             {
-                Member member = new Member();
-                member.ID = userId;
-                MemberService ms = new MemberService();
-                if (ms.Find(member))
-                {
-                    return View();
-                }
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
             }
-            return Content(string.Format(Constants.FAILALERT, "没有权限。"));
         }
 
         /// <summary>
@@ -140,21 +159,58 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult EditProject()
         {
-            int? projectId = StringHelper.ConvertObjectToInt(Request.Params["projectId"]);
-            int? userId = StringHelper.ConvertObjectToInt(Request.Params["userId"]);
-
-            if (null != projectId && projectId > 0 && null != userId && userId > 0)
+            if (CheckMembership() != null)
             {
-                Project project = new Project();
-                project.ID = projectId;
-                project.Userid = (int)userId;
-                ProjectService ps = new ProjectService();
-                if (ps.Find(project))
+                int? projectId = StringHelper.ConvertObjectToInt(Request.Params["projectId"]);
+                int? userId = StringHelper.ConvertObjectToInt(Request.Params["userId"]);
+
+                if (null != projectId && projectId > 0 && null != userId && userId > 0)
                 {
-                    return View(project);
+                    Project project = new Project();
+                    project.ID = projectId;
+                    project.Userid = (int)userId;
+                    ProjectService ps = new ProjectService();
+                    if (ps.Find(project))
+                    {
+                        return View(project);
+                    }
                 }
+                return Content(string.Format(Constants.FAILALERT, "没有找到该基金。"));
             }
-            return Content(string.Format(Constants.FAILALERT, "没有找到该基金。"));
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 删除一个基金项目
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult DeleteProject()
+        {
+            if (CheckMembership() != null)
+            {
+                int? projectId = StringHelper.ConvertObjectToInt(Request.Params["projectId"]);
+                int? userId = StringHelper.ConvertObjectToInt(Request.Params["userId"]);
+
+                if (null != projectId && projectId > 0 && null != userId && userId > 0)
+                {
+                    Project project = new Project();
+                    project.ID = projectId;
+                    project.Userid = (int)userId;
+                    ProjectService ps = new ProjectService();
+                    if (ps.Delete(project))
+                    {
+                        return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditMember?userid="+project.Userid)));
+                    }
+                }
+                return Content(string.Format(Constants.FAILALERT, "没有找到该基金。"));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         /// <summary>
@@ -163,7 +219,58 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult ShareManagement()
         {
-            return View();
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 新增资料分享页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AddShare()
+        {
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 编辑资料分享页面
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditShare()
+        {
+            if (CheckMembership() != null)
+            {
+                int? shareId = StringHelper.ConvertObjectToInt(Request.Params["shareId"]);
+
+                if (null != shareId && shareId > 0)
+                {
+                    Share share = new Share();
+                    share.ID = shareId;
+                    ShareService ss = new ShareService();
+                    if (ss.Find(share))
+                    {
+                        return View(share);
+                    }
+                }
+                return Content(string.Format(Constants.FAILALERT, "没有找到该共享资料。"));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         /// <summary>
@@ -172,12 +279,27 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult CommentManagement()
         {
-            return View();
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
         }
 
         public ActionResult PublicationManagement()
         {
-            return View();
+            Member user = CheckMembership();
+            if (null != user && null != user.IsTeacher && (bool)user.IsTeacher)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面(仅实验室老师有权限访问此页面)，请先登录！"));
+            }
         }
     }
 }

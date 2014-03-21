@@ -64,7 +64,11 @@ namespace hulilab.Models.Common
                         case (int)ShareType.SUMMARY:
                             result = "Summary";
                             break;
+                        case (int)ShareType.SOFTWARE:
+                            result = "Software";
+                            break;
                         default:
+                            result = "Undefined";
                             break;
                     }
                 }
@@ -78,7 +82,11 @@ namespace hulilab.Models.Common
                         case (int)ShareType.SUMMARY:
                             result = "资料总结";
                             break;
+                        case (int)ShareType.SOFTWARE:
+                            result = "软件";
+                            break;
                         default:
+                            result = "未分类";
                             break;
                     }
                 }

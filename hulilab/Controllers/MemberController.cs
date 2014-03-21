@@ -64,10 +64,10 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult AddMember(Member member)
         {
-             MemberService ms = new MemberService();
+            MemberService ms = new MemberService();
             if (ms.Add(member))
             {
-                return Content(string.Format(Constants.SUCCESSALERT,Url.Content("~/Admin/TeamManagement")));
+                return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/TeamManagement")));
             }
             else
             {
@@ -92,7 +92,6 @@ namespace hulilab.Controllers
                 return Content(string.Format(Constants.FAILALERT, ms.ErrorMsg));
             }
         }
-
 
         /// <summary>
         /// 增加成员基金
@@ -122,7 +121,7 @@ namespace hulilab.Controllers
             ProjectService ps = new ProjectService();
             if (ps.Edit(project))
             {
-                return Content(string.Format(Constants.SUCCESSALERT,Url.Content("~/Admin/EditProject?projectid="+project.ID+"&userid="+project.Userid)));
+                return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditProject?projectid=" + project.ID + "&userid=" + project.Userid)));
             }
             else
             {

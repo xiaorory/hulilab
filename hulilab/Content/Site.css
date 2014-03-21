@@ -91,6 +91,10 @@ body
 	width: 100%;
 }
 
+.blockcontent p
+{
+	padding-left:20px;
+}
 .mark
 {
 	color: red;
@@ -142,11 +146,7 @@ thead
 td
 {
 	padding: 10px 0px 0px 20px;
-}
-
-.more
-{
-	background: url(/files/pics/readmore_arrow.gif) no-repeat right center;
+	line-height:25px;
 }
 
 .btn
@@ -185,7 +185,7 @@ td
 
 .inner p
 {
-	line-height: 25px;
+	line-height: 30px;
 }
 
 #logo
@@ -236,11 +236,17 @@ a:link
 
 #menu li
 {
-	width:150px;
+	width:140px;
 	display: inline-block;
 	float: left;
 	line-height: 50px;
 	text-align: center;
 }
 
-
+.box{
+	}
+	
+.boxtitle{
+	padding:4px;
+	background-color: #ccdeb4;
+	}

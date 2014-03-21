@@ -22,7 +22,7 @@
                 <li>@Html.ActionLink("Team", "Team", "Member")</li>
                 <li>@Html.ActionLink("Publications", "Index", "Publication")</li>
                 <li>@Html.ActionLink("Collaborations", "Index", "Collaboration")</li>
-                <li>@Html.ActionLink("Share List", "Index", "Share")</li>
+                <li>@Html.ActionLink("Share List", "Shares", "Share")</li>
             </ul>
         </div>
         <!-- end #menu -->
@@ -35,7 +35,7 @@
     </div>
     <!-- end #page -->
     <div id="footer" class="inner" style="padding-top: 20px">
-        <div style="text-align: center;">@Html.ActionLink("HomePage", "Index", "Home")|@Html.ActionLink("Team", "Team", "Member")|@Html.ActionLink("Share List", "Index", "Share")</div>
+        <div style="text-align: center;">@Html.ActionLink("HomePage", "Index", "Home")|@Html.ActionLink("Team", "Team", "Member")|@Html.ActionLink("Share List", "Shares", "Share")</div>
         <div style="text-align: center;">
             <a href="@Url.Content("~/Admin/Login")" style="float:right;width:100px;text-decoration:none;color:#215990;" class="more">
                 Admin Login</a></div>

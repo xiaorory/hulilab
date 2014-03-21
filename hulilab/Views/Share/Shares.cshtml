@@ -1,0 +1,44 @@
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+
+        ShareService ss = new ShareService();
+        List<Share> shares;
+        if (ss.LoadAll(out shares))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    Share List</h3>
+            </div>
+            <div class="blockcontent">
+                @if (shares.Count > 0)
+                {
+                    <table class="full">
+                        @foreach (Share share in shares)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink(share.Title, "Index", "Share", new { shareId = share.ID }, null)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        Nothing is shared yet.</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@ss.ErrorMsg</p>
+        }
+    }
+</div>

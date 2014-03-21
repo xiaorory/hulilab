@@ -9,6 +9,12 @@ namespace hulilab.Models.BLL
 {
     public class ProjectService: BaseService<Project>,IService<Project>
     {
+        /// <summary>
+        /// 获取某个用户所拥有的基金项目
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="projects"></param>
+        /// <returns></returns>
         public bool LoadUserProjects(int userid,out List<Project> projects)
         {
             return Load(p => p.Field<int>("USERID") == userid, out projects);

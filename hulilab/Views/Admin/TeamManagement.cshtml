@@ -46,7 +46,7 @@
                                 @if (isTeacher)
                                 {
                                     <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null) | 
-                                        @Html.ActionLink("编辑", "EditMember", new { userid = @member.ID })
+                                        @Html.ActionLink("编辑", "EditMember", new { userid = @member.ID }) 
                                     </td>
                                 }
                                 else

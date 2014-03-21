@@ -1,4 +1,88 @@
 ﻿@using hulilab.Models.DAL
 @using hulilab.Models.BLL
 @using hulilab.Models.Common
+<div class="inner">
+    @{
+        int userId = (int)StringHelper.ConvertObjectToInt(Session["userId"]);//打开此页面时已经验证过为实验室登录成员
 
+        CommentService cs = new CommentService();
+        List<Comment> comments;
+        //获取本人的共享资料
+        if (cs.LoadUserComments(userId, out comments))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    我所做的评价</h3>
+            </div>
+            <div class="blockcontent">
+                @if (comments.Count > 0)
+                {
+                    <table>
+                        @foreach (Comment comment in comments) {
+                        <tr>
+                            <td>
+                                @Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(comment.Content))
+                                <br />
+                                <span style="text-align: right">submitted on @comment.SubmitDate
+                                </span>
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        没有做过评价</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@cs.ErrorMsg</p>
+        }
+    }
+
+    @{
+        List<Comment> shareComments;
+        //获取本人的共享资料
+        if (cs.LoadUserShareComments(userId, out shareComments))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    我收到的评价</h3>
+            </div>
+            <div class="blockcontent">
+                @if (comments.Count > 0)
+                {
+                    <table>
+                        @foreach (Comment comment in shareComments)
+                        {
+                        <tr>
+                            <td>
+                                @Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(comment.Content))
+                                <br />
+                                <span style="text-align: right">submitted on @comment.SubmitDate
+                                </span>
+                            </td>
+                        </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        没有收到评价</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@cs.ErrorMsg</p>
+        }
+    }
+</div>

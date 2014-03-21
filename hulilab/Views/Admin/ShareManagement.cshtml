@@ -1,2 +1,50 @@
-﻿
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        int userId = (int)StringHelper.ConvertObjectToInt(Session["userId"]);//打开此页面时已经验证过为实验室登录成员
 
+        ShareService ss = new ShareService();
+        List<Share> shares;
+        //获取本人的共享资料
+        if (ss.LoadUserShares(userId, out shares))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    共享资料列表</h3>
+            </div>
+            <div class="blockcontent">
+                @if (shares.Count > 0)
+                {
+                    <table class="full">
+                        @foreach (Share share in shares)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.ActionLink(share.Title, "Index", "Share", new { shareId = share.ID }, null)
+                                </td>
+                                <td>@StringHelper.GetShareType(share.Type, Language.CHS)
+                                </td>
+                                <td>@Html.ActionLink("编辑", "EditShare", "Admin", new { shareId = share.ID }, null) 
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        没有共享资料</p>
+                }
+                <span class="spanbtn" style="float: right">@Html.ActionLink("新增共享资料", "AddShare")</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@ss.ErrorMsg</p>
+        }
+    }
+</div>

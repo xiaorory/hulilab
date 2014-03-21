@@ -12,7 +12,7 @@ using System.Data.OleDb;
 
 namespace hulilab.Models.Repository
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : BaseObject,new()
+    public abstract class BaseRepository<T> : IRepository<T> where T : BaseObject, new()
     {
         private string errorMsg = string.Empty;
         public string ErrorMsg { get { return errorMsg; } }
@@ -46,6 +46,10 @@ namespace hulilab.Models.Repository
                     value = "no";
                 }
             }
+            else if (property.PropertyType == typeof(DateTime))
+            {
+                value = "#" + property.GetValue(obj, null).ToString()+"#";
+            }
             else if (property.PropertyType.IsValueType)
             {
                 value = property.GetValue(obj, null).ToString();
@@ -66,11 +70,8 @@ namespace hulilab.Models.Repository
 
             foreach (PropertyInfo property in GetValidProperties(obj))
             {
-                if (property.Name.ToLower() != "id")
-                {
-                    cols += "[" + property.Name + "],";
-                    vals += GetValue(property, obj) + ",";
-                }
+                cols += "[" + property.Name + "],";
+                vals += GetValue(property, obj) + ",";
             }
             sql += cols.Substring(0, cols.Length - 1) + ") values(" + vals.Substring(0, vals.Length - 1) + ")";
             int id, infectedRows;
@@ -176,6 +177,10 @@ namespace hulilab.Models.Repository
                     }
                     isSuccess = true;
                 }
+                else
+                {
+                    errorMsg = "Not Found";
+                }
             }
             else
             {
@@ -213,6 +218,10 @@ namespace hulilab.Models.Repository
                 {
                     isSuccess = true;
                 }
+                else
+                {
+                    errorMsg = "Not Found";
+                }
             }
             else
             {
@@ -222,7 +231,7 @@ namespace hulilab.Models.Repository
             return isSuccess;
         }
 
-        public bool Load(Func<DataRow, bool> condition,out List<T> results)
+        public bool Load(Func<DataRow, bool> condition, out List<T> results)
         {
             bool isSuccess = false;
             results = new List<T>();
@@ -256,6 +265,10 @@ namespace hulilab.Models.Repository
                         results.Add(obj);
                     }
                     isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = "Not Found";
                 }
             }
             else
