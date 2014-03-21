@@ -9,10 +9,10 @@ namespace hulilab.Models.DAL
 {
     public class Comment : BaseObject
     {
-        [DefaultValue(-1)]
-        public int ShareId { get; set; }// 对应 share id,-1代表对网站评论
-        [DefaultValue(-1)]
-        public int Author { get; set; } //对应member id， -1代表匿名
+        [DefaultValue(null)]
+        public int? ShareId { get; set; }// 对应 share id,null代表对网站评论
+        [DefaultValue(null)]
+        public int? Author { get; set; } //对应member id， null代表匿名
         public string Content { get; set; }
         public DateTime SubmitDate { get; set; }
     }

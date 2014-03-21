@@ -1,2 +1,211 @@
-﻿<h2>TeamManagement</h2>
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        bool isTeacher = null != Session["isTeacher"] && (bool)Session["isTeacher"];
+        MemberService ms = new MemberService();
+        List<Member> teachers;
+        if (ms.LoadCurrentTeachers(out teachers))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    现任老师列表</h3>
+            </div>
+            <div class="blockcontent">
+            @if (teachers.Count > 0)
+            {
+                <table class="full">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                用户名
+                            </th>
+                            <th style="width: 30%">
+                                中文名
+                            </th>
+                            <th style="width: 30%">
+                                英文名
+                            </th>
+                            <th style="width: 20%">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Member member in teachers)
+                        {
+                            <tr>
+                                <td>@member.Username
+                                </td>
+                                <td>@member.ChsName
+                                </td>
+                                <td>@member.EnuName
+                                </td>
+                                @if (isTeacher)
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null) | 
+                                        @Html.ActionLink("编辑", "EditMember", new { userid = @member.ID })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>没有成员</p>
+            }
+            </div>
+        </div>
+        }
+        else
+        {
+           <p>@ms.ErrorMsg</p>
+        }
 
+    }
+     @{
+        List<Member> currentStudents;
+        if (ms.LoadCurrentStudents(out currentStudents))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    现任学生列表</h3>
+            </div>
+            <div class="blockcontent">
+            @if (currentStudents.Count > 0)
+            {
+                <table class="full">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                用户名
+                            </th>
+                            <th style="width: 30%">
+                                中文名
+                            </th>
+                            <th style="width: 30%">
+                                英文名
+                            </th>
+                            <th style="width: 20%">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Member member in currentStudents)
+                        {
+                            <tr>
+                                <td>@member.Username
+                                </td>
+                                <td>@member.ChsName
+                                </td>
+                                <td>@member.EnuName
+                                </td>
+                                @if (isTeacher)
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null) | 
+                                        @Html.ActionLink("编辑", "EditMember", new { userid = @member.ID })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>没有现任学生</p>
+            }
+            </div>
+        </div>
+        }
+        else
+        {
+           <p>@ms.ErrorMsg</p>
+        }
+
+    }
+
+    @{
+        List<Member> graduatedStudents;
+        if (ms.LoadPastStudents(out graduatedStudents))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    已毕业学生列表</h3>
+            </div>
+            <div class="blockcontent">
+            @if (graduatedStudents.Count > 0)
+            {
+                <table class="full">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%">
+                                用户名
+                            </th>
+                            <th style="width: 30%">
+                                中文名
+                            </th>
+                            <th style="width: 30%">
+                                英文名
+                            </th>
+                            <th style="width: 20%">
+                                操作
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Member member in graduatedStudents)
+                        {
+                            <tr>
+                                <td>@member.Username
+                                </td>
+                                <td>@member.ChsName
+                                </td>
+                                <td>@member.EnuName
+                                </td>
+                                @if (isTeacher)
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null) | 
+                                        @Html.ActionLink("编辑", "EditMember", new { userid = @member.ID })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>@Html.ActionLink("详情", "Index", "Member", new { userid = @member.ID }, null)</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>没有已毕业的学生</p>
+            }
+             
+            </div>
+        </div>
+        }
+        else
+        {
+           <p>@ms.ErrorMsg</p>
+        }
+
+    }
+       <span class="spanbtn" style="float:right">@Html.ActionLink("新增成员", "AddMember")</span>
+</div>

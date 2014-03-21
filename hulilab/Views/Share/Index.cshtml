@@ -1,1 +1,52 @@
-﻿
+﻿@using hulilab.Models.BLL
+@using hulilab.Models.DAL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        ShareService ss = new ShareService();
+        List<Share> shares;
+        if (ss.LoadAll(out shares))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    Share List</h3>
+            </div>
+            <div class="blockcontent">
+                @if (shares.Count > 0)
+                {
+                    <table class="full">
+                        @foreach (Share share in shares)
+                        {
+                            <tr>
+                                <td>
+                                    @share.Title
+                                    <br />
+                                    <span>@StringHelper.GetShareType(@share.Type,Language.ENU)</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@share.Description
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>@share.Content
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        No share yet.</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@ss.ErrorMsg</p>
+        }
+    }
+</div>

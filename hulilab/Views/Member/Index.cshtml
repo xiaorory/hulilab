@@ -30,66 +30,90 @@
             Personal Information</h3>
     </div>
     <div class="blockcontent">
-        <table>
-            <tr>
-                <td>
-                    Name
-                </td>
-                <td>@member.EnuName
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Sex
-                </td>
-                <td>@StringHelper.GetSex(member.Sex, Language.ENU)
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Education History
-                </td>
-                <td>@member.EnuEducationHistory
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Awards
-                </td>
-                <td>@member.EnuAwards
-                </td>
-            </tr>
-            @if (member.IsTeacher != null && (bool)member.IsTeacher)
-            {
+        <table class="full">
+            <thead>
                 <tr>
-                    <td>
-                        Academic Position
+                    <td style="width: 20%">
                     </td>
-                    <td>@member.EnuAcademicPosition
+                    <td style="width: 80%">
                     </td>
                 </tr>
-            }
-            <tr>
-                <td>
-                    Phone
-                </td>
-                <td>@member.Phone
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Email
-                </td>
-                <td>@member.Email
-                </td>
-            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>@member.EnuName
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Sex
+                    </td>
+                    <td>@StringHelper.GetSex(member.Sex, Language.ENU)
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Introduction
+                    </td>
+                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuIntroduction))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Research Field
+                    </td>
+                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuResearchField))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Education History
+                    </td>
+                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuEducationHistory))
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Awards
+                    </td>
+                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuAwards))
+                    </td>
+                </tr>
+                @if (member.IsTeacher != null && (bool)member.IsTeacher)
+                {
+                    <tr>
+                        <td>
+                            Academic Position
+                        </td>
+                        <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuAcademicPosition))
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td>
+                        Phone
+                    </td>
+                    <td>@member.Phone
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>@member.Email
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
 <div class="block">
     <div class="blocktitle">
         <h3>
-            基金项目</h3>
+            Projects</h3>
     </div>
     <div class="blockcontent">
         @{
@@ -100,17 +124,17 @@
                 if (projects.Count == 0)
                 {
             <p>
-                尚且没有基金项目</p>
+                No projects yet</p>
                 }
                 else
                 {
-            <table>
+            <table class="full">
                 <thead>
                     <tr>
-                        <th style="width: 30%">
+                        <th style="width: 20%">
                             Duration
                         </th>
-                        <th style="width: 70%">
+                        <th style="width: 80%">
                             Project Name
                         </th>
                     </tr>

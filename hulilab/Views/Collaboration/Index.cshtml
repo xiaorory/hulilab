@@ -1,2 +1,43 @@
-﻿<h2>Index</h2>
-
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        CollaborationService cs = new CollaborationService();
+        List<Collaboration> collaborations;
+        if (cs.LoadAll(out collaborations))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    Collaborations</h3>
+            </div>
+            <div class="blockcontent">
+                <div style="padding: 20px 10px 20px 10px; text-indent: 20px;">
+                    <p>
+                        We have a very close collaboration with many international and domestic well-known
+                        scholars. The collaborations have produced 4 cooperation funds and many SCI papers.
+                    </p>
+                </div>
+                @if (collaborations.Count > 0)
+                {
+                    <table class="full">
+                        @foreach (Collaboration collaboration in collaborations)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@collaboration.Link" target="_blank">@collaboration.EnuFriendName</a>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@cs.ErrorMsg</p>
+        }
+    }
+</div>

@@ -12,17 +12,17 @@ namespace hulilab.Models.BLL
     {
         public bool LoadCurrentTeachers(out List<Member> currentTeachers)
         {
-            return Load(p=>p.Field<bool>("IsTeacher") == true && p.Field<bool>("status") == true, out currentTeachers);
+            return Load(p=>p.Field<bool>("IsTeacher") == true && p.Field<bool>("Status") == true, out currentTeachers);
         }
 
         public bool LoadCurrentStudents(out List<Member> currentStudents)
         {
-            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("status") == true, out currentStudents);
+            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("Status") == true, out currentStudents);
         }
 
         public bool LoadPastStudents(out List<Member> pastStudents)
         {
-            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("status") == false, out pastStudents);
+            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("Status") == false, out pastStudents);
         }
     }
 }

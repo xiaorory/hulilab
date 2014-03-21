@@ -81,6 +81,14 @@ namespace hulilab.Models.Repository
                     isSuccess = true;
                     obj.ID = id;
                 }
+                else
+                {
+                    errorMsg = "插入数据后返回无效的id";
+                }
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
             }
 
             return isSuccess;
@@ -103,6 +111,32 @@ namespace hulilab.Models.Repository
             if (dbService.RunTextCommand(sql, out infectedRows))
             {
                 isSuccess = true;
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
+            }
+
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// 清空某个表
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool Clear(T obj)
+        {
+            bool isSuccess = false;
+            string sql = "delete * from [" + typeof(T).Name + "]";
+            int infectedRows;
+            if (dbService.RunTextCommand(sql, out infectedRows))
+            {
+                isSuccess = true;
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
             }
 
             return isSuccess;
@@ -143,6 +177,10 @@ namespace hulilab.Models.Repository
                     isSuccess = true;
                 }
             }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
+            }
             isSuccess = dbService.CloseConnection() && isSuccess;
 
             return isSuccess;
@@ -175,6 +213,10 @@ namespace hulilab.Models.Repository
                 {
                     isSuccess = true;
                 }
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
             }
 
             return isSuccess;
@@ -215,6 +257,10 @@ namespace hulilab.Models.Repository
                     }
                     isSuccess = true;
                 }
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
             }
             isSuccess = dbService.CloseConnection() && isSuccess;
 

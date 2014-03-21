@@ -14,6 +14,7 @@ namespace hulilab.Models.BLL
         string ErrorMsg { get; }
         bool Add(T obj);
         bool Delete(T obj);
+        bool Clear(T obj);
         bool Edit(T obj);
         bool Find(T obj);
         bool Load(Func<DataRow, bool> condition,out List<T> results);

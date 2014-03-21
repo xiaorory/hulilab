@@ -76,7 +76,26 @@ namespace hulilab.Controllers
         }
 
         /// <summary>
-        /// 增加成员新基金
+        /// 修改成员信息
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public ActionResult EditMember(Member member)
+        {
+            MemberService ms = new MemberService();
+            if (ms.Edit(member))
+            {
+                return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditMember?userid=" + member.ID)));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, ms.ErrorMsg));
+            }
+        }
+
+
+        /// <summary>
+        /// 增加成员基金
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
@@ -86,6 +105,24 @@ namespace hulilab.Controllers
             if (ps.Add(project))
             {
                 return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/AddProject")));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, ps.ErrorMsg));
+            }
+        }
+
+        /// <summary>
+        /// 修改成员基金
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public ActionResult EditProject(Project project)
+        {
+            ProjectService ps = new ProjectService();
+            if (ps.Edit(project))
+            {
+                return Content(string.Format(Constants.SUCCESSALERT,Url.Content("~/Admin/EditProject?projectid="+project.ID+"&userid="+project.Userid)));
             }
             else
             {

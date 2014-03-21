@@ -1,15 +1,59 @@
 ﻿@using hulilab.Models.BLL
 @using hulilab.Models.DAL
-@{
-    string error;
-    string result;
-    if (PaperService.DoGetPapers(out result, out error))
-    {
-        result = HttpUtility.HtmlDecode(result);
-        Response.Write(result);
+<div class="inner">
+    @{
+        PublicationService ps = new PublicationService();
+        List<Publication> publications;
+        if (ps.LoadAll(out publications))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    Publications</h3>
+            </div>
+            <div class="blockcontent">
+                @if (publications.Count > 0)
+                {
+                    <table class="full">
+                     <thead>
+                            <tr>
+                                <th style="width: 75%">
+                                    Title/Author
+                                </th>
+                                <th style="width: 10%">
+                                    Cited by
+                                </th>
+                                <th style="width: 15%">
+                                    Year
+                                </th>
+                            </tr>
+                        </thead>
+                        @foreach (Publication publication in publications)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@publication.Link" target="_blank">@publication.Title</a>
+                                    <br />
+                                    <span>@publication.Authors</span>
+                                    <br />
+                                    <span>@publication.Magazine</span>
+                                </td>
+                                <td>@publication.CitedBy</td>
+                                <td>@publication.PublishYear</td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No publications yet.</p>
+                }
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@ps.ErrorMsg</p>
+        }
     }
-    else
-    {
-    @error
-    }
-}
+</div>

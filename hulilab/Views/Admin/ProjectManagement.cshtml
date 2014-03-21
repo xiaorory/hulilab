@@ -1,0 +1,69 @@
+﻿@using hulilab.Models.DAL
+@using hulilab.Models.BLL
+@using hulilab.Models.Common
+<div class="inner">
+    @{
+        int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+
+        ProjectService ps = new ProjectService();
+        List<Project> projects;
+        if (ps.LoadUserProjects((int)userId, out projects))
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    基金列表</h3>
+            </div>
+            <div class="blockcontent">
+                @if (projects.Count > 0)
+                {
+                    <table class="full">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%">
+                                    研究期限
+                                </th>
+                                <th style="width: 30%">
+                                    基金项目英文名称
+                                </th>
+                                <th style="width: 30%">
+                                    基金项目中文名称
+                                </th>
+                                <th style="width: 20%">
+                                    操作
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Project project in projects)
+                            {
+                                <tr>
+                                    <td>@project.Duration
+                                    </td>
+                                    <td>@project.EnuTitle
+                                    </td>
+                                    <td>@project.ChsTitle
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("编辑", "EditProject", new { projectid = @project.ID, userid = Session["userid"] })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p>
+                        没有基金项目</p>
+                }
+                <span class="spanbtn" style="float: right">@Html.ActionLink("新增基金", "AddProject")</span>
+            </div>
+        </div>
+        }
+        else
+        {
+        <p>@ps.ErrorMsg</p>
+        }
+    }
+</div>

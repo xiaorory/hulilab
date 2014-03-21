@@ -3,7 +3,7 @@
     int? userId = hulilab.Models.Common.StringHelper.ConvertObjectToInt(Session["userId"]);
     if (null == userId || userId <= 0)
     {
-        Response.Write(string.Format(Constants.FAILALERT, "You have no permission to this page.Please Log in first!"));
+        Response.Write("You have no permission to this page.Please Log in first!");
         Response.Flush();
         Response.Close();
     }
@@ -29,7 +29,8 @@
         <div id="menu">
             <ul>
                 <li>@Html.ActionLink("首页", "Index", "Admin")</li>
-                <li>@Html.ActionLink("个人资料", "MemberManagement", "Admin")</li>
+                <li>@Html.ActionLink("个人资料", "EditMember", "Admin")</li>
+                <li>@Html.ActionLink("基金项目管理", "ProjectManagement", "Admin")</li>
                 <li>@Html.ActionLink("成员管理", "TeamManagement", "Admin")</li>
                 <li>@Html.ActionLink("共享资料", "ShareManagement", "Admin")</li>
                 <li>@Html.ActionLink("评论管理", "CommentManagement", "Admin")</li>
@@ -46,7 +47,7 @@
     </div>
     <!-- end #page -->
     <div id="footer" class="inner" style="padding-top: 20px">
-         <div style="text-align: center;">@Html.ActionLink("首页", "Index", "Admin")|@Html.ActionLink("个人资料", "MemberManagement", "Admin")|@Html.ActionLink("共享资料", "Index", "Share")</div>
+         <div style="text-align: center;">@Html.ActionLink("首页", "Index", "Admin")|@Html.ActionLink("个人资料", "EditMember", "Admin")|@Html.ActionLink("共享资料", "ShareManagement", "Admin")</div>
         <p style="text-align: center">
             Copyright &#169; 2013 hulilab.com. All rights reserved.</p>
     </div>

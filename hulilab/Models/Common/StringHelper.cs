@@ -28,11 +28,11 @@ namespace hulilab.Models.Common
             {
                 if (lang == Language.ENU)
                 {
-                    result = "Not Filled";
+                    result = "Secret";
                 }
                 else if(lang == Language.CHS)
                 {
-                    result = "主人很懒，没有填写";
+                    result = "保密";
                 }
             }
             else
@@ -47,6 +47,55 @@ namespace hulilab.Models.Common
                 }
             }
             return result;
+        }
+
+        public static string GetShareType(int? type, Language lang)
+        {
+            string result = null;
+            if (null != type)
+            {
+                if (lang == Language.ENU)
+                {
+                    switch ((int)type)
+                    {
+                        case (int)ShareType.POSTER:
+                            result= "Poster";
+                            break;
+                        case (int)ShareType.SUMMARY:
+                            result = "Summary";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (lang == Language.CHS)
+                {
+                    switch ((int)type)
+                    {
+                        case (int)ShareType.POSTER:
+                            result = "海报";
+                            break;
+                        case (int)ShareType.SUMMARY:
+                            result = "资料总结";
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static String convertStringLineBreakToHtmlFormat(String content)
+        {
+            if (null != content)
+            {
+                return content.Replace("\r\n", "<br/>").Replace("\n", "<br/>");
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }

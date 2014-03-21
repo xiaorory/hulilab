@@ -11,7 +11,7 @@ namespace hulilab.Models.BLL
 {
     public class BaseService<T> :IService<T> where T:BaseObject,new()
     {
-        private string errorMsg;
+        protected string errorMsg;
         public string ErrorMsg { get { return errorMsg; } }
 
         private IRepository<T> GetCurrentRepository()
@@ -23,6 +23,22 @@ namespace hulilab.Models.BLL
             else if (typeof(T) == typeof(Project))
             {
                 return (IRepository<T>)new ProjectRepository();
+            }
+            else if (typeof(T) == typeof(Collaboration))
+            {
+                return (IRepository<T>)new CollaborationRepository();
+            }
+            else if (typeof(T) == typeof(Publication))
+            {
+                return (IRepository<T>)new PublicationRepository();
+            }
+            else if (typeof(T) == typeof(Share))
+            {
+                return (IRepository<T>)new ShareRepository();
+            }
+            else if (typeof(T) == typeof(Comment))
+            {
+                return (IRepository<T>)new CommentRepository();
             }
             else
             {
@@ -73,6 +89,29 @@ namespace hulilab.Models.BLL
             }
             return isSuccess;
         }
+
+        public bool Clear(T obj)
+        {
+            bool isSuccess = false;
+            IRepository<T> ir = GetCurrentRepository();
+            if (ir != null)
+            {
+                if (ir.Clear(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
+            }
+            else
+            {
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
+            }
+            return isSuccess;
+        }
+
 
         public bool Edit(T obj)
         {

@@ -17,5 +17,6 @@ namespace hulilab.Models.DAL
         bool RunFunction(string functionName, List<OleDbParameter> parms);
         bool Query(string sql, out OleDbDataReader dr);
         bool Query(string sql, out DataSet ds);
+        string ErrorMsg { get; }
     }
 }
