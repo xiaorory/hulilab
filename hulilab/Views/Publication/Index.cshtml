@@ -6,31 +6,50 @@
         List<Publication> publications;
         if (ps.LoadAll(out publications))
         {
+            foreach (var yearPublications in publications.GroupBy(p => p.PublishYear).OrderByDescending(p=>p.Key))
+            {
         <div class="block">
             <div class="blocktitle">
-                <h3>
-                    Publications</h3>
+                @if (!string.IsNullOrEmpty(yearPublications.Key))
+                {
+                    <h3>
+                        Publications in @yearPublications.Key
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                    Others</h3>
+                }
             </div>
             <div class="blockcontent">
-                @if (publications.Count > 0)
+                @if (yearPublications.Count() > 0)
                 {
                     <table class="full">
-                     <thead>
+                        <thead>
                             <tr>
+                                <th style="width: 5%">
+                                </th>
                                 <th style="width: 75%">
                                     Title/Author
                                 </th>
-                                <th style="width: 10%">
+                                <th style="width: 7%">
+                                    IF
+                                </th>
+                                <th style="width: 8%">
                                     Cited by
                                 </th>
-                                <th style="width: 15%">
+                                <th style="width: 5%">
                                     Year
                                 </th>
                             </tr>
                         </thead>
-                        @foreach (Publication publication in publications)
+                        @for (int i = 0; i < yearPublications.Count(); i++)
                         {
+                            Publication publication = yearPublications.ElementAt(i);
                             <tr>
+                                <td>@(i+1)
+                                </td>
                                 <td>
                                     <a href="@publication.Link" target="_blank">@publication.Title</a>
                                     <br />
@@ -38,18 +57,24 @@
                                     <br />
                                     <span>@publication.Magazine</span>
                                 </td>
-                                <td>@publication.CitedBy</td>
-                                <td>@publication.PublishYear</td>
+                                <td>@publication.GetIF()
+</td>
+                                <td>@publication.CitedBy
+                                </td>
+                                <td>@publication.PublishYear
+                                </td>
                             </tr>
                         }
                     </table>
                 }
                 else
                 {
-                    <p>No publications yet.</p>
+                    <p>
+                        No publications yet.</p>
                 }
             </div>
         </div>
+            }
         }
         else
         {

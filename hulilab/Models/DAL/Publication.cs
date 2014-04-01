@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using hulilab.Models.Common;
 
 namespace hulilab.Models.DAL
 {
@@ -25,5 +26,12 @@ namespace hulilab.Models.DAL
         [DefaultValue(null)]
         [DisplayName("引用次数")]
         public int? CitedBy { get; set; }
+        /// <summary>
+        /// 获取影响因子
+        /// </summary>
+        public string GetIF()
+        {
+            return StringHelper.GetIF(Magazine);
+        }
     }
 }

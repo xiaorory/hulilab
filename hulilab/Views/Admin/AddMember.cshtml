@@ -51,11 +51,39 @@
                     @Html.ValidationMessageFor(model => model.ChsName)
                 </div>
                 <div class="editor-label">
+                    @Html.LabelFor(model => model.PhotoURL)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.PhotoURL, new { @class = "edittextbox" })
+                    @Html.ValidationMessageFor(model => model.PhotoURL)
+                </div>
+                <div class="editor-label">
                     @Html.LabelFor(model => model.Sex)<span class="mark">*</span>
                 </div>
                 <div class="editor-field">
-                    @Html.DropDownListFor(model => model.Sex,new[] {new SelectListItem(){Text ="男",Value=bool.TrueString},new SelectListItem(){Text="女",Value= bool.FalseString}})
+                    @Html.DropDownListFor(model => model.Sex, new[] { new SelectListItem() { Text = "男", Value = bool.TrueString }, new SelectListItem() { Text = "女", Value = bool.FalseString } })
                     @Html.ValidationMessageFor(model => model.Sex)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Phone)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "edittextbox" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Email)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "edittextbox" })
+                    @Html.ValidationMessageFor(model => model.Email)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.QQ)
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.QQ, new { @class = "edittextbox" })
+                    @Html.ValidationMessageFor(model => model.QQ)
                 </div>
                 <div class="editor-label">
                     @Html.LabelFor(model => model.EnuIntroduction)
@@ -72,14 +100,14 @@
                     @Html.ValidationMessageFor(model => model.ChsIntroduction)
                 </div>
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.EnuResearchField)
+                    @Html.LabelFor(model => model.EnuResearchField)<span class="mark">（*此字段仅对老师适用）</span>
                 </div>
                 <div class="editor-field">
                     @Html.TextAreaFor(model => model.EnuResearchField, new { @class = "edittextarea" })
                     @Html.ValidationMessageFor(model => model.EnuResearchField)
                 </div>
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.ChsResearchField)
+                    @Html.LabelFor(model => model.ChsResearchField)<span class="mark">（*此字段仅对老师适用）</span>
                 </div>
                 <div class="editor-field">
                     @Html.TextAreaFor(model => model.ChsResearchField, new { @class = "edittextarea" })
@@ -128,24 +156,10 @@
                     @Html.ValidationMessageFor(model => model.ChsAcademicPosition)
                 </div>
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.Phone)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Phone, new { @class = "edittextbox" })
-                    @Html.ValidationMessageFor(model => model.Phone)
-                </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => model.Email)
-                </div>
-                <div class="editor-field">
-                    @Html.TextBoxFor(model => model.Email, new { @class = "edittextbox" })
-                    @Html.ValidationMessageFor(model => model.Email)
-                </div>
-                <div class="editor-label">
                     @Html.LabelFor(model => model.Status)<span class="mark">*</span>
                 </div>
-               <div class="editor-field">
-                    @Html.DropDownListFor(model => model.Status, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString, Selected =true }, new SelectListItem() { Text = "否", Value = bool.FalseString } })
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.Status, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString, Selected = true }, new SelectListItem() { Text = "否", Value = bool.FalseString } })
                     @Html.ValidationMessageFor(model => model.Status)
                 </div>
                 <div class="editor-label">
@@ -154,6 +168,21 @@
                 <div class="editor-field">
                     @Html.DropDownListFor(model => model.IsTeacher, new[] { new SelectListItem() { Text = "是", Value = bool.TrueString }, new SelectListItem() { Text = "否", Value = bool.FalseString, Selected = true } })
                     @Html.ValidationMessageFor(model => model.IsTeacher)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.StudentType)<span class="mark">（*此字段仅对学生适用）</span>
+                </div>
+                <div class="editor-field">
+                    @Html.DropDownListFor(model => model.StudentType, new[] { new SelectListItem() { Text = "未定义", Value = null}, new SelectListItem() { Text = "本科", Value = ((int)StudentType.UNDERGRADUATE).ToString()}
+               ,new SelectListItem() { Text = "硕士", Value = ((int)StudentType.POSTGRADUATE).ToString(), Selected = true}, new SelectListItem() { Text = "博士", Value = ((int)StudentType.PHDCANDIDATE).ToString() }})
+                    @Html.ValidationMessageFor(model => model.IsTeacher)
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => model.Grade)<span class="mark">（*此字段仅对学生适用）</span>
+                </div>
+                <div class="editor-field">
+                    @Html.TextBoxFor(model => model.Grade, new { @class = "edittext" })
+                    @Html.ValidationMessageFor(model => model.Grade)
                 </div>
             </div>
         </div>

@@ -9,10 +9,21 @@
         List<Share> shares;
         if (ss.LoadAll(out shares))
         {
+            foreach (var typeShares in shares.GroupBy(p => p.Type))
+            {
         <div class="block">
             <div class="blocktitle">
-                <h3>
-                    Share List</h3>
+                @if (!string.IsNullOrEmpty(StringHelper.GetShareType(typeShares.Key, Language.ENU)))
+                {
+                    <h3>
+                        @StringHelper.GetShareType(typeShares.Key, Language.ENU)
+                    </h3>
+                }
+                else
+                {
+                    <h3>
+                        Others</h3>
+                }
             </div>
             <div class="blockcontent">
                 @if (shares.Count > 0)
@@ -35,6 +46,7 @@
                 }
             </div>
         </div>
+            }
         }
         else
         {

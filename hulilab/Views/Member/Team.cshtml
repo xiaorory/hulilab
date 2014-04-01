@@ -7,64 +7,88 @@
         List<Member> teachers;
         if (ms.LoadCurrentTeachers(out teachers))
         {
+            if (teachers != null && teachers.Count > 0)
+            {
+                foreach (Member teacher in teachers)
+                {
         <div class="block">
             <div class="blocktitle">
                 <h3>
                     Current Teacher</h3>
             </div>
             <div class="blockcontent">
-                @if (teachers.Count > 0)
-                {
-                    <table class="full">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%">
-                                    Name
-                                </th>
-                                <th style="width: 8%">
-                                    Sex
-                                </th>
-                                <th style="width: 12%">
-                                    Phone
-                                </th>
-                                <th style="width: 20%">
-                                    Email
-                                </th>
-                                <th style="width: 35%">
-                                    Research Field
-                                </th>
-                                <th style="width: 10%">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Member teacher in teachers)
-                            {
-                                <tr>
-                                    <td>@teacher.EnuName
-                                    </td>
-                                    <td>@StringHelper.GetSex(teacher.Sex, Language.ENU)
-                                    </td>
-                                    <td>@teacher.Phone
-                                    </td>
-                                    <td>@teacher.Email
-                                    </td>
-                                    <td>@teacher.EnuResearchField
-                                    </td>
-                                    <td>@Html.ActionLink("Details>>", "Index", "Member", new { userid = @teacher.ID }, null)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>
-                        No teachers yet.</p>
-                }
+                <table class="full">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%">
+                            </th>
+                            <th style="width: 85%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Name
+                            </td>
+                            <td>@teacher.EnuName
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Photo
+                            </td>
+                            <td>
+                                <img src="@teacher.PhotoURL" style="width:100px;height:120px" alt="@teacher.EnuName"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sex
+                            </td>
+                            <td>@StringHelper.GetSex(teacher.Sex, Language.ENU)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Phone
+                            </td>
+                            <td>@teacher.Phone
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email
+                            </td>
+                            <td>@teacher.Email
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Research Field
+                            </td>
+                            <td>@teacher.EnuResearchField
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Academic Position
+                            </td>
+                            <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(teacher.EnuAcademicPosition))
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                            </td>
+                            <td style="float: right">@Html.ActionLink("Details>>", "Index", "Member", new { userid = @teacher.ID }, null)
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+                }
+            }
         }
         else
         {
@@ -72,45 +96,62 @@
         }
     }
     @{
-        List<Member> currentStudents;
-        if (ms.LoadCurrentStudents(out currentStudents))
+        List<Member> students;
+        if (ms.LoadAllStudents(out students))
         {
-           
+            foreach (var statusStudents in students.GroupBy(p => p.Status))
+            {
         <div class="block">
             <div class="blocktitle">
-                <h3>
-                    Current Students</h3>
+                @if (statusStudents.Key != null && statusStudents.Key == true)
+                {
+                    <h3>
+                        Current Students</h3>
+                }
+                else
+                {
+                    <h3>
+                        Graduated Students</h3>
+                }
             </div>
             <div class="blockcontent">
-                @if (currentStudents.Count > 0)
+                @if (statusStudents.Count() > 0)
                 {
+                    foreach(var typeStudent in statusStudents.GroupBy(p=>p.StudentType))
+                    {
+                        <p style="font-weight:bold;">Below students are @StringHelper.GetStudentType(typeStudent.Key,Language.ENU) .</p>
                     <table class="full">
                         <thead>
-                            <tr>
+                            <tr style="background-color:#ccdeb4;">
                                 <th style="width: 15%">
                                     Name
                                 </th>
-                                <th style="width: 8%">
+                                 <th style="width: 10%">
+                                    Grade
+                                </th>
+                                <th style="width: 10%">
                                     Sex
                                 </th>
-                                <th style="width: 12%">
+                                <th style="width: 15%">
                                     Phone
                                 </th>
                                 <th style="width: 20%">
                                     Email
                                 </th>
-                                <th style="width: 35%">
-                                    Research Field
+                                <th style="width: 20%">
+                                    QQ
                                 </th>
                                 <th style="width: 10%">
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (Member student in currentStudents)
+                            @foreach (Member student in typeStudent.OrderBy(p=>p.Grade))
                             {
                                 <tr>
                                     <td>@student.EnuName
+                                    </td>
+                                     <td>@student.Grade
                                     </td>
                                     <td>@StringHelper.GetSex(student.Sex, Language.ENU)
                                     </td>
@@ -118,7 +159,7 @@
                                     </td>
                                     <td>@student.Email
                                     </td>
-                                    <td>@student.EnuResearchField
+                                    <td>@student.QQ
                                     </td>
                                     <td>@Html.ActionLink("Details>>", "Index", "Member", new { userid = @student.ID }, null)
                                     </td>
@@ -126,6 +167,7 @@
                             }
                         </tbody>
                     </table>
+                    }
                 }
                 else
                 {
@@ -134,77 +176,7 @@
                 }
             </div>
         </div>
-           
-        }
-        else
-        {
-        <p>@ms.ErrorMsg</p>
-        }
-    }
-    @{
-        List<Member> pastStudents;
-        if (ms.LoadPastStudents(out pastStudents))
-        {
-           
-        <div class="block">
-            <div class="blocktitle">
-                <h3>
-                    Graduated Students</h3>
-            </div>
-            <div class="blockcontent">
-                @if (pastStudents.Count > 0)
-                {
-                    <table class="full">
-                        <thead>
-                            <tr>
-                                <th style="width: 15%">
-                                    Name
-                                </th>
-                                <th style="width: 8%">
-                                    Sex
-                                </th>
-                                <th style="width: 12%">
-                                    Phone
-                                </th>
-                                <th style="width: 20%">
-                                    Email
-                                </th>
-                                <th style="width: 35%">
-                                    Research Field
-                                </th>
-                                <th style="width: 10%">
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (Member student in pastStudents)
-                            {
-                                <tr>
-                                    <td>@student.EnuName
-                                    </td>
-                                    <td>@StringHelper.GetSex(student.Sex, Language.ENU)
-                                    </td>
-                                    <td>@student.Phone
-                                    </td>
-                                    <td>@student.Email
-                                    </td>
-                                    <td>@student.EnuResearchField
-                                    </td>
-                                    <td>@Html.ActionLink("Details>>", "Index", "Member", new { userid = @student.ID }, null)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                }
-                else
-                {
-                    <p>
-                        No students yet.</p>
-                }
-            </div>
-        </div>
-           
+            }
         }
         else
         {

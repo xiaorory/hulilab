@@ -18,19 +18,19 @@ namespace hulilab.Models.Common
             {
                 return null;
             }
-             
+
         }
 
-        public static string GetSex(bool? sex,Language lang)
+        public static string GetSex(bool? sex, Language lang)
         {
-            string result= null;
+            string result = null;
             if (null == sex)
             {
                 if (lang == Language.ENU)
                 {
                     result = "Secret";
                 }
-                else if(lang == Language.CHS)
+                else if (lang == Language.CHS)
                 {
                     result = "保密";
                 }
@@ -59,7 +59,7 @@ namespace hulilab.Models.Common
                     switch ((int)type)
                     {
                         case (int)ShareType.POSTER:
-                            result= "Poster";
+                            result = "Poster";
                             break;
                         case (int)ShareType.SUMMARY:
                             result = "Summary";
@@ -89,6 +89,86 @@ namespace hulilab.Models.Common
                             result = "未分类";
                             break;
                     }
+                }
+            }
+            return result;
+        }
+
+        public static string GetStudentType(Int16? type, Language lang)
+        {
+            string result = null;
+            if (null != type)
+            {
+                if (lang == Language.ENU)
+                {
+                    switch ((int)type)
+                    {
+                        case (int)StudentType.PHDCANDIDATE:
+                            result = "Ph.d candidate";
+                            break;
+                        case (int)StudentType.POSTGRADUATE:
+                            result = "Master candidate";
+                            break;
+                        case (int)StudentType.UNDERGRADUATE:
+                            result = "Undergraduate";
+                            break;
+                        default:
+                            result = "Undefined";
+                            break;
+                    }
+                }
+                else if (lang == Language.CHS)
+                {
+                    switch ((int)type)
+                    {
+                        case (int)StudentType.PHDCANDIDATE:
+                            result = "博士";
+                            break;
+                        case (int)StudentType.POSTGRADUATE:
+                            result = "硕士";
+                            break;
+                        case (int)StudentType.UNDERGRADUATE:
+                            result = "本科";
+                            break;
+                        default:
+                            result = "未分类";
+                            break;
+                    }
+                }
+            }
+            return result;
+        }
+
+
+        public static string GetIF(string magazine)
+        {
+            string result = null;
+            if (!string.IsNullOrEmpty(magazine))
+            {
+                magazine = magazine.ToLower();
+                if (magazine.Contains("neuroimage"))
+                {
+                    result = "6.252";
+                }
+                else if (magazine.Contains("plos one"))
+                {
+                    result = "3.73";
+                }
+                else if (magazine.Contains("journal of pain"))
+                {
+                    result = "3.240";
+                }
+                else if (magazine.Contains("psychophysiology"))
+                {
+                    result = "3.261";
+                }
+                else if (magazine.StartsWith("nature communication"))
+                {
+                    result = "10.02";
+                }
+                else if (magazine.StartsWith("pain"))
+                {
+                    result = "5.644";
                 }
             }
             return result;

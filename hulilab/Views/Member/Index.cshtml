@@ -49,6 +49,14 @@
                 </tr>
                 <tr>
                     <td>
+                        Photo
+                    </td>
+                    <td>
+                        <img src="@member.PhotoURL" style="width:100px;height:120px" alt="@member.EnuName"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Sex
                     </td>
                     <td>@StringHelper.GetSex(member.Sex, Language.ENU)
@@ -56,16 +64,37 @@
                 </tr>
                 <tr>
                     <td>
-                        Introduction
+                        Student Type
                     </td>
-                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuIntroduction))
+                    <td>@StringHelper.GetStudentType(member.StudentType, Language.ENU)
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Research Field
+                        Grade
                     </td>
-                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuResearchField))
+                    <td>@member.Grade
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Phone
+                    </td>
+                    <td>@member.Phone
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Email
+                    </td>
+                    <td>@member.Email
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Introduction
+                    </td>
+                    <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuIntroduction))
                     </td>
                 </tr>
                 <tr>
@@ -86,26 +115,19 @@
                 {
                     <tr>
                         <td>
+                            Research Field
+                        </td>
+                        <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuResearchField))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             Academic Position
                         </td>
                         <td>@Html.Raw(StringHelper.convertStringLineBreakToHtmlFormat(member.EnuAcademicPosition))
                         </td>
                     </tr>
                 }
-                <tr>
-                    <td>
-                        Phone
-                    </td>
-                    <td>@member.Phone
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Email
-                    </td>
-                    <td>@member.Email
-                    </td>
-                </tr>
             </tbody>
         </table>
     </div>

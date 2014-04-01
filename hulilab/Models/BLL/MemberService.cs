@@ -16,14 +16,9 @@ namespace hulilab.Models.BLL
             return Load(p=>p.Field<bool>("IsTeacher") == true && p.Field<bool>("Status") == true, out currentTeachers);
         }
 
-        public bool LoadCurrentStudents(out List<Member> currentStudents)
+        public bool LoadAllStudents(out List<Member> pastStudents)
         {
-            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("Status") == true, out currentStudents);
-        }
-
-        public bool LoadPastStudents(out List<Member> pastStudents)
-        {
-            return Load(p => p.Field<bool>("IsTeacher") == false && p.Field<bool>("Status") == false, out pastStudents);
+            return Load(p => p.Field<bool>("IsTeacher") == false , out pastStudents);
         }
 
         public static string GetUserName(int? userid,Language lang)
