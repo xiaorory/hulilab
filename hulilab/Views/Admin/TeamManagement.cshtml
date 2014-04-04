@@ -3,7 +3,7 @@
 @using hulilab.Models.Common
 <div class="inner">
     @{
-        bool isTeacher = null != Session["isTeacher"] && (bool)Session["isTeacher"];
+        bool isTeacher = null != Request.Cookies["isTeacher"].Value && bool.Parse(Request.Cookies["isTeacher"].Value);
         MemberService ms = new MemberService();
         List<Member> teachers;
         if (ms.LoadCurrentTeachers(out teachers))

@@ -16,10 +16,10 @@ namespace hulilab.Controllers
         /// <summary>
         /// 检查当前用户是否是是实验室成员
         /// </summary>
-        /// <returns></returns>
+        /// <returns>如果没有登录，返回null。否则返回member实例</returns>
         private Member CheckMembership()
         {
-            int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+            int? userId = StringHelper.ConvertObjectToInt(Request.Cookies["userId"].Value);
 
             if (null != userId && userId > 0)
             {
@@ -274,6 +274,54 @@ namespace hulilab.Controllers
         }
 
         /// <summary>
+        /// 网站管理
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SiteManagement()
+        {
+            if (CheckMembership() != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
+        /// 修改网站首页
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult EditWelcomePage()
+        {
+            if (CheckMembership() != null)
+            {
+                TextSettingsService tss = new TextSettingsService();
+                TextSettings ts;
+                if (tss.First(out ts))
+                {
+                    ts.Content = HttpUtility.HtmlDecode(ts.Content);
+                    return View(ts);
+                }
+                else 
+                {
+                    ts = new TextSettings();
+                    ts.Content = " ";
+                    if (tss.Add(ts))
+                    {
+                        return View(ts);
+                    }
+                }
+                return Content(string.Format(Constants.FAILALERT, tss.ErrorMsg));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
+            }
+        }
+
+        /// <summary>
         /// 评论管理页面
         /// </summary>
         /// <returns></returns>
@@ -288,7 +336,7 @@ namespace hulilab.Controllers
                 return Content(string.Format(Constants.FAILALERT, "你没有权限访问此页面，请先登录！"));
             }
         }
-        
+
         /// <summary>
         /// 论文管理页面
         /// </summary>
@@ -348,7 +396,7 @@ namespace hulilab.Controllers
             {
                 int? collaborationId = StringHelper.ConvertObjectToInt(Request.Params["collaborationId"]);
 
-                if (null != collaborationId && collaborationId >  0)
+                if (null != collaborationId && collaborationId > 0)
                 {
                     Collaboration collaboration = new Collaboration();
                     collaboration.ID = collaborationId;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.OleDb;
+using System.Threading;
 
 namespace hulilab.Models.DAL
 {
@@ -24,9 +25,21 @@ namespace hulilab.Models.DAL
                 if (conn == null)
                 {
                     conn = new OleDbConnection(connectionString);
+                    conn.Open();
                 }
-
-                conn.Open();
+                else
+                {
+                    while (conn.State == ConnectionState.Connecting || conn.State == ConnectionState.Executing ||
+                        conn.State == ConnectionState.Fetching)
+                    {
+                        Thread.Sleep(500);
+                        conn.ResetState();
+                    }
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+                }
                 return conn;
             }
             catch (Exception ex)
@@ -36,6 +49,10 @@ namespace hulilab.Models.DAL
             }
         }
 
+        /// <summary>
+        /// 关闭数据库链接
+        /// </summary>
+        /// <returns></returns>
         public bool CloseConnection()
         {
             try
@@ -43,6 +60,7 @@ namespace hulilab.Models.DAL
                 if (conn != null)
                 {
                     conn.Close();
+                    conn.Dispose();
                 }
                 return true;
             }
@@ -68,8 +86,7 @@ namespace hulilab.Models.DAL
                 {
                     OleDbCommand cmd = new OleDbCommand(sql, dbConn);
                     cmd.ExecuteNonQuery();
-                    CloseConnection();
-                    isSuccess = true;
+                    isSuccess = CloseConnection();
                 }
                 else
                 {
@@ -100,8 +117,7 @@ namespace hulilab.Models.DAL
                 {
                     OleDbCommand cmd = new OleDbCommand(sql, dbConn);
                     infectedRows = cmd.ExecuteNonQuery();
-                    CloseConnection();
-                    isSuccess = true;
+                    isSuccess = CloseConnection();
                 }
                 else
                 {
@@ -116,16 +132,15 @@ namespace hulilab.Models.DAL
         }
 
         /// <summary>
-        /// 运行sql语句，并返回受影响的行数和主键id
+        /// 运行insert sql语句，并返回插入行的主键id
         /// </summary>
-        /// <param name="sql"></param>
-        /// <param name="infectedRows"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool RunTextCommand(string sql, out int infectedRows, out int id)
+        /// <param name="sql">insert sql 语句</param>
+        /// <param name="id">插入行的主键id</param>
+        /// <returns>成功为true，否则为false</returns>
+        public bool RunInsertCommand(string sql, out int id)
         {
             id = -1;
-            infectedRows = 0;
+            int infectedRows;
             bool isSuccess = false;
             try
             {
@@ -144,9 +159,14 @@ namespace hulilab.Models.DAL
                         {
                             isSuccess = true;
                         }
+                        else
+                        {
+                            errorMsg = "获取@@IDENTITY失败。";
+                        }
                     }
                     else
                     {
+                        errorMsg = "受影响行超过一行，回滚操作。";
                         tran.Rollback();
                     }
                     isSuccess = CloseConnection() && isSuccess;
@@ -161,37 +181,6 @@ namespace hulilab.Models.DAL
                 errorMsg = ex.Message;
             }
            
-            return isSuccess;
-        }
-
-        public bool RunFunction(string functionName, List<OleDbParameter> parms)
-        {
-            bool isSuccess = false;
-            try
-            {
-                OleDbConnection dbConn = GetConnection();
-                if (dbConn != null)
-                {
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.CommandText = functionName;
-                    foreach (OleDbParameter parm in parms)
-                    {
-                        cmd.Parameters.Add(parm);
-                    }
-                    cmd.ExecuteNonQuery();
-                    CloseConnection();
-                    isSuccess = true;
-                }
-                else
-                {
-                    errorMsg = "数据库连接为空";
-                }
-            }
-            catch (Exception ex)
-            {
-                errorMsg = ex.Message;
-            }
             return isSuccess;
         }
 

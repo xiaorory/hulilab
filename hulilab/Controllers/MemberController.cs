@@ -42,8 +42,16 @@ namespace hulilab.Controllers
                 MemberService ms = new MemberService();
                 if (ms.Find(member))
                 {
-                    Session["userId"] = member.ID;
-                    Session["isTeacher"] = member.IsTeacher;
+                    Response.Cookies["userId"].Value = member.ID.ToString();
+                    if (null != member.IsTeacher && (bool)member.IsTeacher)
+                    {
+                        Response.Cookies["isTeacher"].Value = bool.TrueString;
+                    }
+                    else
+                    {
+                        Response.Cookies["isTeacher"].Value = bool.FalseString;
+                    }
+                    
                     return RedirectToAction("Index", "Admin");
                 }
                 else
@@ -139,7 +147,7 @@ namespace hulilab.Controllers
         /// <returns></returns>
         public ActionResult Logout()
         {
-            Session.Clear();
+            Response.Cookies.Clear();
             return RedirectToAction("Index", "Home");
         }
     }

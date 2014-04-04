@@ -10,7 +10,7 @@
 
         if (null == userId)
         {
-            userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+            userId = StringHelper.ConvertObjectToInt(Request.Cookies["userId"].Value);
         }
     }
     @using (Html.BeginForm("AddProject", "Member", FormMethod.Post, new { @class = "form-horizontal" }))

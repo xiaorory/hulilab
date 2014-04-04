@@ -16,6 +16,7 @@ namespace hulilab.Models.Repository
         bool Edit(T obj);
         bool Create(T obj);
         bool Clear(T obj);
+        bool ClearUnderCondition(T obj);
         bool Load(Func<DataRow,bool> condition,out List<T> results);
     }
 }

@@ -30,5 +30,28 @@ namespace hulilab.Models.BLL
         {
             return Load(p => p.Field<int>("Type") == type, out shares);
         }
+
+        /// <summary>
+        /// 删除一个共享资料
+        /// </summary>
+        /// <param name="share"></param>
+        /// <returns></returns>
+        public bool ClearShare(Share share)
+        {
+            bool isSuccess = false;
+            Comment comment = new Comment();
+            comment.ShareId = share.ID;
+            CommentService cs = new CommentService();
+            if (cs.ClearUnderCondition(comment))
+            {
+                ShareService ss = new ShareService();
+                isSuccess = ss.Delete(share);
+            }
+            else
+            {
+                errorMsg = cs.ErrorMsg;
+            }
+            return isSuccess;
+        }
     }
 }

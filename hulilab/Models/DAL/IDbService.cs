@@ -13,8 +13,7 @@ namespace hulilab.Models.DAL
         bool CloseConnection();
         bool RunTextCommand(string sql);
         bool RunTextCommand(string sql,out int infectedRows);
-        bool RunTextCommand(string sql, out int infectedRows, out int id);
-        bool RunFunction(string functionName, List<OleDbParameter> parms);
+        bool RunInsertCommand(string sql,out int id);
         bool Query(string sql, out OleDbDataReader dr);
         bool Query(string sql, out DataSet ds);
         string ErrorMsg { get; }

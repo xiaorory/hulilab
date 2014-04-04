@@ -48,7 +48,7 @@ namespace hulilab.Models.Repository
             }
             else if (property.PropertyType == typeof(DateTime))
             {
-                value = "#" + property.GetValue(obj, null).ToString()+"#";
+                value = "#" + property.GetValue(obj, null).ToString() + "#";
             }
             else if (property.PropertyType.IsValueType)
             {
@@ -74,10 +74,10 @@ namespace hulilab.Models.Repository
                 vals += GetValue(property, obj) + ",";
             }
             sql += cols.Substring(0, cols.Length - 1) + ") values(" + vals.Substring(0, vals.Length - 1) + ")";
-            int id, infectedRows;
-            if (dbService.RunTextCommand(sql, out infectedRows, out id))
+            int id;
+            if (dbService.RunInsertCommand(sql, out id))
             {
-                if (infectedRows == 1 && id > 0)
+                if (id > 0)
                 {
                     isSuccess = true;
                     obj.ID = id;
@@ -143,6 +143,37 @@ namespace hulilab.Models.Repository
             return isSuccess;
         }
 
+        /// <summary>
+        /// 按照obj中的值来清空某个表内的符合这些值的内容
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool ClearUnderCondition(T obj)
+        {
+            bool isSuccess = false;
+            string sql = "delete * from [" + typeof(T).Name + "] where ";
+            string conditions = "";
+
+            foreach (PropertyInfo property in GetValidProperties(obj))
+            {
+                conditions += "[" + property.Name + "]=";
+                conditions += GetValue(property, obj);
+                conditions += " and ";
+            }
+            sql += conditions.Substring(0, conditions.Length - 5);
+            int infectedRows;
+            if (dbService.RunTextCommand(sql, out infectedRows))
+            {
+                isSuccess = true;
+            }
+            else
+            {
+                errorMsg = dbService.ErrorMsg;
+            }
+
+            return isSuccess;
+        }
+
         public bool Find(T obj)
         {
             bool isSuccess = false;
@@ -182,12 +213,12 @@ namespace hulilab.Models.Repository
                     errorMsg = "Not Found";
                 }
             }
-            else
+
+            isSuccess = dbService.CloseConnection() && isSuccess;
+            if (!isSuccess)
             {
                 errorMsg = dbService.ErrorMsg;
             }
-            isSuccess = dbService.CloseConnection() && isSuccess;
-
             return isSuccess;
         }
 
@@ -271,12 +302,12 @@ namespace hulilab.Models.Repository
                     errorMsg = "Not Found";
                 }
             }
-            else
+
+            isSuccess = dbService.CloseConnection() && isSuccess;
+            if (!isSuccess)
             {
                 errorMsg = dbService.ErrorMsg;
             }
-            isSuccess = dbService.CloseConnection() && isSuccess;
-
             return isSuccess;
         }
     }

@@ -3,7 +3,7 @@
 @using hulilab.Models.Common
 <div class="inner">
     @{
-        int userId = (int)StringHelper.ConvertObjectToInt(Session["userId"]);//打开此页面时已经验证过为实验室登录成员
+        int userId = (int)StringHelper.ConvertObjectToInt(Request.Cookies["userId"].Value);//打开此页面时已经验证过为实验室登录成员
 
         CommentService cs = new CommentService();
         List<Comment> comments;

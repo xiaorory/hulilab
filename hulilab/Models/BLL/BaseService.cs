@@ -11,7 +11,7 @@ namespace hulilab.Models.BLL
 {
     public class BaseService<T> :IService<T> where T:BaseObject,new()
     {
-        protected string errorMsg;
+        protected string errorMsg="";
         public string ErrorMsg { get { return errorMsg; } }
 
         private IRepository<T> GetCurrentRepository()
@@ -39,6 +39,10 @@ namespace hulilab.Models.BLL
             else if (typeof(T) == typeof(Comment))
             {
                 return (IRepository<T>)new CommentRepository();
+            }
+            else if (typeof(T) == typeof(TextSettings))
+            {
+                return (IRepository<T>)new TextSettingsRepository();
             }
             else
             {
@@ -90,6 +94,11 @@ namespace hulilab.Models.BLL
             return isSuccess;
         }
 
+        /// <summary>
+        /// 清空某个数据库表
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public bool Clear(T obj)
         {
             bool isSuccess = false;
@@ -97,6 +106,33 @@ namespace hulilab.Models.BLL
             if (ir != null)
             {
                 if (ir.Clear(obj))
+                {
+                    isSuccess = true;
+                }
+                else
+                {
+                    errorMsg = ir.ErrorMsg;
+                }
+            }
+            else
+            {
+                errorMsg = "当前的对象的数据库操作方法尚未实现";
+            }
+            return isSuccess;
+        }
+
+        /// <summary>
+        /// 按照obj中的值来清空某个表内的符合这些值的内容
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public bool ClearUnderCondition(T obj)
+        {
+            bool isSuccess = false;
+            IRepository<T> ir = GetCurrentRepository();
+            if (ir != null)
+            {
+                if (ir.ClearUnderCondition(obj))
                 {
                     isSuccess = true;
                 }
@@ -183,6 +219,27 @@ namespace hulilab.Models.BLL
         public bool LoadAll(out List<T> results)
         {
             return Load(p => true, out results);
+        }
+
+        public bool First(out T result)
+        {
+            bool isSuccess = false;
+            result = null;
+            List<T> results;
+            isSuccess = LoadAll(out results);
+            if (isSuccess)
+            {
+                if (null != results && results.Count > 0)
+                {
+                    result = results[0];
+                }
+                else
+                {
+                    isSuccess = false;
+                    errorMsg = "集合为空，找不到第一个成员";
+                }
+            }
+            return isSuccess;
         }
     }
 }

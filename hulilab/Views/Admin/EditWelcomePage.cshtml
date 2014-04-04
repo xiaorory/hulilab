@@ -1,0 +1,29 @@
+﻿@model hulilab.Models.DAL.TextSettings
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="@Url.Content("~/Content/editor/kindeditor.js")"></script>
+<script type="text/javascript" charset="utf-8" src="@Url.Content("/editor/lang/zh_CN.js")"></script>
+<script type="text/javascript">
+    KindEditor.ready(function (K) {
+        window.editor = K.create('textarea[name="Content"]', {
+            allowFileManager: true
+        });
+    });
+</script>
+@using (Html.BeginForm("EditWelcomePage", "TextSettings", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="editor-label">
+        网站首页内容
+    </div>
+    <div class="editor-field">
+        @Html.TextAreaFor(model => model.Content, new { @class = "edittextarea", style = "height:800px" })
+        @Html.ValidationMessageFor(model => model.Content)
+    </div>
+
+    @Html.HiddenFor(model => model.ID)
+
+    <p>
+        <input type="submit" value="修改" class="btn"/>
+    </p>
+}

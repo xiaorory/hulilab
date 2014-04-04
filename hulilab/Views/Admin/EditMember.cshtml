@@ -238,7 +238,7 @@
                                     <td>
                                         @Html.ActionLink("编辑", "EditProject", new { projectid = @project.ID, userId = @Model.ID })
                                         |
-                                        @Html.ActionLink("删除", "DeleteProject", new { projectid = @project.ID, userid = Session["userid"] })
+                                        @Html.ActionLink("删除", "DeleteProject", new { projectid = @project.ID, userid = Request.Cookies["userId"].Value })
                                     </td>
                                 </tr>
                             }

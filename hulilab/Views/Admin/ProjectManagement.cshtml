@@ -3,7 +3,7 @@
 @using hulilab.Models.Common
 <div class="inner">
     @{
-        int? userId = StringHelper.ConvertObjectToInt(Session["userId"]);
+        int? userId = StringHelper.ConvertObjectToInt(Request.Cookies["userId"].Value);
 
         ProjectService ps = new ProjectService();
         List<Project> projects;

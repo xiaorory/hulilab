@@ -14,6 +14,10 @@ namespace hulilab.Models.DAL
         [DefaultValue(null)]
         public int? Author { get; set; } //对应member id， null代表匿名
         public string Content { get; set; }
-        public DateTime SubmitDate { get; set; }
+        /// <summary>
+        /// 评论提交时间
+        /// </summary>
+        [DefaultValue(null)]
+        public DateTime? SubmitDate { get; set; }
     }
 }

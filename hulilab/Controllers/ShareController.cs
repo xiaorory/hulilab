@@ -33,8 +33,11 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
+        [HttpPost]
+        [ValidateInput(false)]
         public ActionResult AddShare(Share share)
         {
+            share.Content = HttpUtility.HtmlEncode(share.Content);
             ShareService ss = new ShareService();
             if (ss.Add(share))
             {
@@ -51,12 +54,35 @@ namespace hulilab.Controllers
         /// </summary>
         /// <param name="member"></param>
         /// <returns></returns>
+        [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditShare(Share share)
         {
+            share.Content = HttpUtility.HtmlEncode(share.Content);
             ShareService ss = new ShareService();
             if (ss.Edit(share))
             {
                 return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/EditShare?shareId="+share.ID)));
+            }
+            else
+            {
+                return Content(string.Format(Constants.FAILALERT, ss.ErrorMsg));
+            }
+        }
+
+        /// <summary>
+        /// 删除一个分享资料
+        /// </summary>
+        /// <param name="member"></param>
+        /// <returns></returns>
+        public ActionResult DeleteShare(int shareId)
+        {
+            ShareService ss = new ShareService();
+            Share share = new Share();
+            share.ID = shareId;
+            if (ss.ClearShare(share))
+            {
+                return Content(string.Format(Constants.SUCCESSALERT, Url.Content("~/Admin/ShareManagement")));
             }
             else
             {

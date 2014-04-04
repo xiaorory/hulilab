@@ -3,7 +3,7 @@
 @using hulilab.Models.Common
 <div class="inner">
     @{
-        int userId = (int)StringHelper.ConvertObjectToInt(Session["userId"]);//打开此页面时已经验证过为实验室登录成员
+        int userId = (int)StringHelper.ConvertObjectToInt(Request.Cookies["userId"].Value);//打开此页面时已经验证过为实验室登录成员
 
         ShareService ss = new ShareService();
         List<Share> shares;
@@ -27,7 +27,8 @@
                                 </td>
                                 <td>@StringHelper.GetShareType(share.Type, Language.CHS)
                                 </td>
-                                <td>@Html.ActionLink("编辑", "EditShare", "Admin", new { shareId = share.ID }, null) 
+                                <td>@Html.ActionLink("编辑", "EditShare", "Admin", new { shareId = share.ID }, null) |
+                                 @Html.ActionLink("删除", "DeleteShare", "Share", new { shareId = share.ID }, null) 
                                 </td>
                             </tr>
                         }

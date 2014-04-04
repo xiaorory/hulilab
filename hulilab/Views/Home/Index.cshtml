@@ -1,76 +1,89 @@
-﻿<div class="inner">
-    <div class="block">
-        <div class="blocktitle">
-            <h3>
-                Welcome to Li Hu's Lab
-            </h3>
+﻿@using hulilab.Models.BLL
+@using hulilab.Models.DAL
+<div class="inner">
+    @{
+        TextSettingsService tss = new TextSettingsService();
+        TextSettings ts;
+        if (tss.First(out ts))
+        {
+        <div>@Html.Raw(HttpUtility.HtmlDecode(ts.Content))</div>
+        }
+        else
+        {
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    Welcome to Li Hu's Lab
+                </h3>
+            </div>
+            <div class="blockcontent">
+                <p>
+                    Our current research mostly focuses on developing and applying novel techniques
+                    for EEG and fMRI analysis, e.g.
+                    <br />
+                    (1) detecting single-trial EEG responses in the time domain and in the time-frequency
+                    domain;
+                    <br />
+                    (2) investigating novel approaches for the fusion of EEG and fMRI (single-trial
+                    EEG-fMRI) when they collected simultaneously;
+                    <br />
+                    (3) EEG/ERP source analysis;
+                    <br />
+                    (4) investigating time-varying functional connectivity among brain sources. I am
+                    also interested in the neurophysiology of nociceptive system in humans (EEG and
+                    fMRI techniques are used to detect the brain function in response to painful stimuli).
+                </p>
+            </div>
         </div>
-        <div class="blockcontent">
-            <p>
-                Our current research mostly focuses on developing and applying novel techniques
-                for EEG and fMRI analysis, e.g.
-                <br />
-                (1) detecting single-trial EEG responses in the time domain and in the time-frequency
-                domain;
-                <br />
-                (2) investigating novel approaches for the fusion of EEG and fMRI (single-trial
-                EEG-fMRI) when they collected simultaneously;
-                <br />
-                (3) EEG/ERP source analysis;
-                <br />
-                (4) investigating time-varying functional connectivity among brain sources. I am
-                also interested in the neurophysiology of nociceptive system in humans (EEG and
-                fMRI techniques are used to detect the brain function in response to painful stimuli).
-            </p>
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    METHODOLOGICAL RESEARCH
+                </h3>
+            </div>
+            <div class="blockcontent">
+                <p>
+                    Development of novel approaches to analyze EEG and fMRI responses at single-trial
+                    level, both in the time domain and in the time-frequency domain (NeuroImage 2010,
+                    Clinical Neurophysiology 2010, Journal of Neurophysiology 2011).
+                    <br />
+                    Development of novel approaches to investigate the time-varying functional connectivity
+                    among brain sources, e.g. S1, S2, and ACC in LEP studies (NeuroImage 2012a).
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="block">
-        <div class="blocktitle">
-            <h3>
-                METHODOLOGICAL RESEARCH
-            </h3>
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    CLINICAL STUDIES
+                </h3>
+            </div>
+            <div class="blockcontent">
+                <p>
+                    Clinical usefulness of LEPs and CHEPs, in different clinical conditions, e.g. patients
+                    with syringomyelia and patients with Chronic Low Back Pain (Clinical Neurophysiology
+                    2012).
+                    <br />
+                </p>
+            </div>
         </div>
-        <div class="blockcontent">
-            <p>
-                Development of novel approaches to analyze EEG and fMRI responses at single-trial
-                level, both in the time domain and in the time-frequency domain (NeuroImage 2010,
-                Clinical Neurophysiology 2010, Journal of Neurophysiology 2011).
-                <br />
-                Development of novel approaches to investigate the time-varying functional connectivity
-                among brain sources, e.g. S1, S2, and ACC in LEP studies (NeuroImage 2012a).
-            </p>
+        <div class="block">
+            <div class="blocktitle">
+                <h3>
+                    NEUROPHYSIOLOGY OF THE HUMAN NOCICEPTIVE SYSTEM
+                </h3>
+            </div>
+            <div class="blockcontent">
+                <p>
+                    Localization of neural activities generating N1 activity of the EEG response to
+                    nociceptive stimuli, especially focusing on finding the specific “body marker” structure
+                    involved in the generation of LEPs (NeuroImage 2012b).
+                    <br />
+                    Functional characterization of Gamma Oscillation in LEP responses (the Journal of
+                    Neuroscience 2012).
+                </p>
+            </div>
         </div>
-    </div>
-    <div class="block">
-        <div class="blocktitle">
-            <h3>
-                CLINICAL STUDIES
-            </h3>
-        </div>
-        <div class="blockcontent">
-            <p>
-                Clinical usefulness of LEPs and CHEPs, in different clinical conditions, e.g. patients
-                with syringomyelia and patients with Chronic Low Back Pain (Clinical Neurophysiology
-                2012).
-                <br />
-            </p>
-        </div>
-    </div>
-    <div class="block">
-        <div class="blocktitle">
-            <h3>
-                NEUROPHYSIOLOGY OF THE HUMAN NOCICEPTIVE SYSTEM
-            </h3>
-        </div>
-        <div class="blockcontent">
-            <p>
-                Localization of neural activities generating N1 activity of the EEG response to
-                nociceptive stimuli, especially focusing on finding the specific “body marker” structure
-                involved in the generation of LEPs (NeuroImage 2012b).
-                <br />
-                Functional characterization of Gamma Oscillation in LEP responses (the Journal of
-                Neuroscience 2012).
-            </p>
-        </div>
-    </div>
+        }
+    }
 </div>
